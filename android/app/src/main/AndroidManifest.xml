@@ -3,6 +3,9 @@
    <application
         android:label="kat_centre"
         android:icon="@mipmap/ic_launcher">
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyCfDStzSLgh2JHQHT71-Td2GrQmzTnputE"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
