@@ -4,6 +4,11 @@ import 'package:kat_centre/Screen/PetCategories.dart';
 import 'package:kat_centre/Widgets/SearchBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'User.dart';
+import 'LoginPage.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'logmain.dart';
 
 // import 'package:geolocator/geolocator.dart';
 import 'User.dart';
@@ -21,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
   double scaleFactor = 1;
   bool showDrawer = false;
 
+  SharedPreferences sharedPreferences;
+
   //
   // void getLocation() async{
   //   Position position = await Geolocator()
@@ -30,22 +37,25 @@ class _HomeScreenState extends State<HomeScreen> {
   //
 
   @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
+  checkLoginStatus() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    if(sharedPreferences.getString("token") == null) {
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+    }
+  }
+
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: Text('KAT Centre'),
         backgroundColor: Colors.blue[900],
-        actions: <Widget>[ //for toggle menu
-          new IconButton(
-              icon: Icon(Icons.person),
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => Users()),
-                );
-              })
-        ],
       ),
       // onTap: () {
       //   if (showDrawer) {
@@ -166,8 +176,112 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
+    drawer: Drawer(
+      child: ListView(
+        children: <Widget>[
+          DrawerHeader(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: <Color>[
+                      Colors.blue[900],
+                      Colors.blue[900]
+                    ]
+                ),
+              ),
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    CircleAvatar(
+                      backgroundImage: AssetImage('images/pp1.jpg'),
+                      radius: 50,
+                    ),
+                    Padding(padding: EdgeInsets.all(7.0),
+                    child: Text('Rasana Tamrakar',
+                      style: TextStyle(color: Colors.white, fontSize: 20.0),),)
+                    // Material(
+                    //   borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    //   elevation: 10,
+                    //   child: Padding(padding: EdgeInsets.all(10.0),
+                    //   child: Image.asset('images/pp1.jpg', width: 100, height: 100,),
+                    //   ),
+                    // )
+                  ],
+                ),
+              )),
+          CustomListTile(Icons.person,'Profile',() =>
+            {
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(
+            builder: (BuildContext context) => Users()))
+            },),
+          CustomListTile(Icons.logout,'Logout',() =>
+          {
+            // onPressed: () {
+            //   sharedPreferences.clear();
+            //   sharedPreferences.commit();
+            //   Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+            // },
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                builder: (BuildContext context) => LoginPage()))
+          },),
+        ],
+      ),
+      // child: new ListView(
+      //   children: <Widget>[
+      //   new UserAccountsDrawerHeader(
+      //     circleAvatar: CircleAvatar(),
+      //     accountName: new Text('Rasana Tamrakar'),
+      //     accountEmail: new Text('rasan12945@gmail.com'),
+      //   ),
+      //   ],
+      // ),
+    ),
     //  ),
     );
 
+  }
+}
+
+class CustomListTile extends StatelessWidget {
+
+  IconData icon;
+  String text;
+  Function onTap;
+
+  CustomListTile(this.icon,this.text,this.onTap);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(top: BorderSide(color: Colors.grey.shade400))
+        ),
+        child: InkWell(
+          splashColor: Colors.blueAccent,
+          onTap: onTap,
+          child: Container(
+            height: 40.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Icon(icon),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(text,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),),
+                    )
+                  ],
+                ),
+                Icon(Icons.arrow_right)
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

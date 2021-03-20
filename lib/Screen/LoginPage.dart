@@ -6,18 +6,21 @@ import 'signup.dart';
 import 'package:kat_centre/Screen/HomePage.dart';
 import 'package:kat_centre/BottomNavigationBar/bottomnavbar.dart';
 import 'package:kat_centre/Screen/NearbyHospitals.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class login_page extends StatefulWidget {
   @override
   _login_pageState createState() => _login_pageState();
+
 }
 
 class _login_pageState extends State<login_page> {
   bool _showPassword = false;
+  bool _isLoading = false;
 
   @override
-
 
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -139,11 +142,14 @@ class _login_pageState extends State<login_page> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  onPressed: (){
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => BottomNavigationPage()),
-                                    );
+                                  onPressed:(){
+                                    HomeScreen();
                                   },
+                                  // onPressed: (){
+                                  //   Navigator.push(context, MaterialPageRoute(
+                                  //       builder: (context) => BottomNavigationPage()),
+                                  //   );
+                                  // },
                                 ),
                               ),
                             ),

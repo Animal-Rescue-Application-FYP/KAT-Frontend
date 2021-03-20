@@ -5,10 +5,34 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:url_launcher/url_launcher.dart';
+
+import 'configuration.dart';
+import 'PetCard.dart';
+
 class DetailsScreen extends StatelessWidget {
+  String petId;
+  String petName = '';
+  String breed = '';
+  String age = '';
+  String distance = '';
+  String gender = '';
+  String imagePath = '';
+  String call='9860756157';
+
   String id;
   Color color;
   DetailsScreen({this.id, this.color});
+
+
+
+  void customLaunch(command) async{
+    if(await canLaunch(command)){
+      await launch(command);
+    }else{
+      print('could not launch $command');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +96,7 @@ class DetailsScreen extends StatelessWidget {
                             children: [
                               CircleAvatar(
                                 backgroundImage:
-                                AssetImage('images/profile.jpg'),
+                                AssetImage('images/pp1.jpg'),
                               ),
                               SizedBox(
                                 width: 10,
@@ -81,7 +105,7 @@ class DetailsScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Anvesha Shandilya',
+                                    'Rasana Tamrakar',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16),
@@ -96,7 +120,7 @@ class DetailsScreen extends StatelessWidget {
                               ),
                               Expanded(child: Container()),
                               Text(
-                                'Dec 16, 2020',
+                                'Mar 07, 2021',
                                 style: TextStyle(
                                   color: fadedBlack,
                                   fontSize: 12,
@@ -113,7 +137,7 @@ class DetailsScreen extends StatelessWidget {
                             horizontal: 20,
                           ),
                           child: Text(
-                            'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                            'I found this dog near new road. This dog seems to be abandoned. If anybody is up for adoption then please call me on the given number. Thank you!',
                             style: TextStyle(
                               color: fadedBlack,
                               height: 1.7,
@@ -143,14 +167,14 @@ class DetailsScreen extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                   ),
-                  IconButton(
-                    icon: Icon(
-                      CupertinoIcons.tray_arrow_down,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  )
+                  // IconButton(
+                  //   icon: Icon(
+                  //     CupertinoIcons.tray_arrow_down,
+                  //   ),
+                  //   onPressed: () {
+                  //     Navigator.of(context).pop();
+                  //   },
+                  // )
                 ],
               ),
             ),
@@ -249,19 +273,24 @@ class DetailsScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    child: CustomIconButton(
-                      iconData: CupertinoIcons.heart,
-                      onTap: () {},
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.symmetric(horizontal: 20),
+                  //   child: CustomIconButton(
+                  //     iconData: CupertinoIcons.heart,
+                  //     onTap: () {},
+                  //   ),
+                  // ),
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.only(right: 20),
+                      margin: EdgeInsets.only(right: 20, left: 20),
                       child: CustomButton(
-                        label: 'Adoption',
-                        onTap: () {},
+                        label: 'Call',
+                        onTap: (){
+                          // Navigator.push(context, MaterialPageRoute(
+                          //     builder: (context) => login_page()),
+                          // );
+                          customLaunch('tel: $call');
+                        },
                       ),
                     ),
                   ),

@@ -4,6 +4,8 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 
 import 'package:kat_centre/Screen/LoginPage.dart';
+import 'package:kat_centre/Screen/logmain.dart';
+import 'mains.dart';
 
 
 class SplashDisplay extends StatefulWidget {
@@ -32,7 +34,7 @@ class _SplashDisplayState extends State<SplashDisplay> {
       // named route component
 
       Navigator.of(context).pushReplacement(new MaterialPageRoute(
-          builder: (BuildContext context) => login_page()));
+          builder: (BuildContext context) => LoginPage()));
     });
   }
 
@@ -103,7 +105,7 @@ class _SplashDisplayState extends State<SplashDisplay> {
                         padding: const EdgeInsets.only(top: 30.0),
                       ),
                       Text(
-                        'Powered by Rasana Tamrakar',
+                        'Developed by Rasana Tamrakar',
                         style: TextStyle(
                           fontSize: 18,
                           fontFamily: 'Acme',
