@@ -4,6 +4,7 @@ import 'package:kat_centre/Screen/HomePage.dart';
 import 'package:kat_centre/Screen/NearbyHospitals.dart';
 import 'package:kat_centre/Screen/MedicalAssistance.dart';
 import 'package:kat_centre/Screen/User.dart';
+import 'package:kat_centre/Helpline/listHelpline.dart';
 
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
     HomeScreen(),
     NearbyLocation(),
     HelplineNumbers(),
+    // ListHelpline(),
     MedicalAssistance(),
     //Users(),
 

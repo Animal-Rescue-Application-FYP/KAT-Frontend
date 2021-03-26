@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kat_centre/Helpline/HelplineCategory_Display.dart';
+import 'package:kat_centre/Helpline/listHelpline.dart';
+import 'package:kat_centre/Helpline/listHelpline.dart';
 
 class HelplineNumbers extends StatefulWidget {
   @override
@@ -20,7 +22,8 @@ class _HelplineNumbersState extends State<HelplineNumbers> {
               SizedBox(
                 height: 20,
               ),
-            HelplineCategoryDisplay(),
+            // HelplineCategoryDisplay(),
+            ListHelpline(),
           ],
         )
       ),

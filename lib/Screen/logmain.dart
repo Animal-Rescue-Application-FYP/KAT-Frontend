@@ -9,6 +9,7 @@ import 'signup.dart';
 import 'HomePage.dart';
 
 import '../mains.dart';
+import 'Register.dart';
 
 
 
@@ -49,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
             headerSection(),
             textSection(),
             buttonSection(),
+            // registrationSection(),
           ],
         ),
       ),
@@ -61,9 +63,9 @@ class _LoginPageState extends State<LoginPage> {
       'email': email,
       'password': pass
     };
-    var jsonResponse = null;
+    var jsonResponse;
 
-    var response = await http.post("http://127.0.0.1:8000/api/login", body: data);
+    var response = await http.post("http://10.0.2.2:8000/api/login", body: data);
     if(response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       print('Response status: ${response.statusCode}');
@@ -100,22 +102,48 @@ class _LoginPageState extends State<LoginPage> {
   }
   Container buttonSection() {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 40.0,
-      padding: EdgeInsets.symmetric(horizontal: 15.0),
-      margin: EdgeInsets.only(top: 15.0),
-      child: RaisedButton(
-        onPressed: emailController.text == "" || passwordController.text == "" ? null : () {
-          setState(() {
-            _isLoading = true;
-            Text('Please wait');
-          });
-          signIn(emailController.text, passwordController.text);
-        },
-        elevation: 0.0,
-        color: Colors.blue[900],
-        child: Text("Sign In", style: TextStyle(color: Colors.white70)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+      child: Column(
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 40.0,
+              padding: EdgeInsets.symmetric(horizontal: 15.0),
+              margin: EdgeInsets.only(top: 15.0),
+              child: RaisedButton(
+                onPressed: emailController.text == "" || passwordController.text == "" ? null : () {
+                  setState(() {
+                    _isLoading = true;
+                    Text('Please wait');
+                  });
+                  signIn(emailController.text, passwordController.text);
+                },
+                elevation: 0.0,
+                color: Colors.blue[900],
+                child: Text("Sign In", style: TextStyle(color: Colors.white70)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+              ),
+            ),
+            Container(
+              //making an alignment in x and y axis to place text in right side
+              padding: EdgeInsets.only(top: 15.0, left: 20.0),
+              child: InkWell( //gives tapping effect
+                child: FlatButton(
+                  child: Text('Register a new account',
+                    style: TextStyle(
+                      color: Colors.blue[900],
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => Register()), //sign_up paila thyo
+                    );
+                  },
+                ),
+              ),
+            ),
+          ]
       ),
     );
   }
@@ -172,6 +200,29 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
+  // Container registrationSection() {
+  // return Container(
+  //   //making an alignment in x and y axis to place text in right side
+  //   padding: EdgeInsets.only(top: 15.0, left: 20.0),
+  //   child: InkWell( //gives tapping effect
+  //     child: FlatButton(
+  //       child: Text('Register a new account',
+  //         style: TextStyle(
+  //           color: Colors.blue[900],
+  //           fontWeight: FontWeight.bold,
+  //           decoration: TextDecoration.underline,
+  //         ),
+  //       ),
+  //       onPressed: (){
+  //         Navigator.push(context, MaterialPageRoute(
+  //             builder: (context) => sign_up()), //sign_up paila thyo
+  //         );
+  //       },
+  //     ),
+  //   ),
+  // ),
+  // }
 void choiceAction(String choice){
   print('WORKING');
 }

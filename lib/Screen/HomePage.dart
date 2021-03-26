@@ -1,3 +1,5 @@
+import 'package:kat_centre/Helpline/addHelpline.dart';
+
 import 'configuration.dart';
 import 'petcategory_display.dart';
 import 'package:kat_centre/Screen/PetCategories.dart';
@@ -9,6 +11,7 @@ import 'LoginPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'logmain.dart';
+import 'package:kat_centre/Helpline/listHelpline.dart';
 
 // import 'package:geolocator/geolocator.dart';
 import 'User.dart';
@@ -223,6 +226,24 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.of(context).pushReplacement(new MaterialPageRoute(
                 builder: (BuildContext context) => LoginPage()))
           },),
+          new ListTile(
+            title: new Text("Helpline Numbers"),
+            trailing: new Icon(Icons.account_balance),
+            onTap: () => Navigator.of(context).push(
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => ListHelpline()
+              ),
+            ),
+          ),
+          new ListTile(
+            title: new Text("Add Helpline Numbers"),
+            trailing: new Icon(Icons.add),
+            onTap: () => Navigator.of(context).push(
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => AddHelpline()
+              ),
+            ),
+          ),
         ],
       ),
       // child: new ListView(
