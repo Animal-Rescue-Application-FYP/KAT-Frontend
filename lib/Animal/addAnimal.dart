@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kat_centre/Screen/HomePage.dart';
 import 'package:kat_centre/controller/databasehelpers.dart';
-import 'package:kat_centre/main.dart';
 
 class AddAnimal extends StatefulWidget {
 
@@ -175,7 +174,7 @@ class _AddAnimalState extends State<AddAnimal> {
                 height: 50,
                 child: new TextField(
                   controller: _descriptionController,
-                  keyboardType: TextInputType.multiline,
+                  keyboardType: TextInputType.name,
                   decoration: InputDecoration(
                     labelText: 'Description',
                     contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 3),

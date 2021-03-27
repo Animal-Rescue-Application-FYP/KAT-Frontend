@@ -1,6 +1,8 @@
 import 'package:kat_centre/Animal/addAnimal.dart';
 import 'package:kat_centre/Animal/listAnimal.dart';
 import 'package:kat_centre/Helpline/addHelpline.dart';
+import 'package:kat_centre/MedicalAssistance/addAssistance.dart';
+import 'package:kat_centre/MedicalAssistance/listAssistance.dart';
 
 import 'configuration.dart';
 import 'petcategory_display.dart';
@@ -184,35 +186,37 @@ class _HomeScreenState extends State<HomeScreen> {
     drawer: Drawer(
       child: ListView(
         children: <Widget>[
-          DrawerHeader(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: <Color>[
-                      Colors.blue[900],
-                      Colors.blue[900]
-                    ]
+          SingleChildScrollView(
+            child: DrawerHeader(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: <Color>[
+                        Colors.blue[900],
+                        Colors.blue[900]
+                      ]
+                  ),
                 ),
-              ),
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    CircleAvatar(
-                      backgroundImage: AssetImage('images/pp1.jpg'),
-                      radius: 50,
-                    ),
-                    Padding(padding: EdgeInsets.all(7.0),
-                    child: Text('Rasana Tamrakar',
-                      style: TextStyle(color: Colors.white, fontSize: 20.0),),)
-                    // Material(
-                    //   borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    //   elevation: 10,
-                    //   child: Padding(padding: EdgeInsets.all(10.0),
-                    //   child: Image.asset('images/pp1.jpg', width: 100, height: 100,),
-                    //   ),
-                    // )
-                  ],
-                ),
-              )),
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      CircleAvatar(
+                        backgroundImage: AssetImage('images/pp1.jpg'),
+                        radius: 50,
+                      ),
+                      Padding(padding: EdgeInsets.all(7.0),
+                      child: Text('Rasana Tamrakar',
+                        style: TextStyle(color: Colors.white, fontSize: 20.0),),)
+                      // Material(
+                      //   borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                      //   elevation: 10,
+                      //   child: Padding(padding: EdgeInsets.all(10.0),
+                      //   child: Image.asset('images/pp1.jpg', width: 100, height: 100,),
+                      //   ),
+                      // )
+                    ],
+                  ),
+                )),
+          ),
           CustomListTile(Icons.person,'Profile',() =>
             {
             Navigator.of(context).pushReplacement(new MaterialPageRoute(
@@ -261,6 +265,24 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () => Navigator.of(context).push(
               new MaterialPageRoute(
                   builder: (BuildContext context) => AddAnimal()
+              ),
+            ),
+          ),
+          new ListTile(
+            title: new Text("Medical Assistance"),
+            trailing: new Icon(Icons.help),
+            onTap: () => Navigator.of(context).push(
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => ListAssistance()
+              ),
+            ),
+          ),
+          new ListTile(
+            title: new Text("Add Medical Assistance"),
+            trailing: new Icon(Icons.add_circle_outline),
+            onTap: () => Navigator.of(context).push(
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => AddAssistance()
               ),
             ),
           ),
