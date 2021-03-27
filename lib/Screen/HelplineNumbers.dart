@@ -20,7 +20,7 @@ class _HelplineNumbersState extends State<HelplineNumbers> {
         child:Column(
           children: [
               SizedBox(
-                height: 20,
+                height: 20
               ),
             // HelplineCategoryDisplay(),
             ListHelpline(),

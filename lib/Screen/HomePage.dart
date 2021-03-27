@@ -1,3 +1,5 @@
+import 'package:kat_centre/Animal/addAnimal.dart';
+import 'package:kat_centre/Animal/listAnimal.dart';
 import 'package:kat_centre/Helpline/addHelpline.dart';
 
 import 'configuration.dart';
@@ -241,6 +243,24 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () => Navigator.of(context).push(
               new MaterialPageRoute(
                   builder: (BuildContext context) => AddHelpline()
+              ),
+            ),
+          ),
+          new ListTile(
+            title: new Text("Rescue Animals"),
+            trailing: new Icon(Icons.pets_rounded),
+            onTap: () => Navigator.of(context).push(
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => ListAnimal()
+              ),
+            ),
+          ),
+          new ListTile(
+            title: new Text("Add Animal"),
+            trailing: new Icon(Icons.add_circle_outline),
+            onTap: () => Navigator.of(context).push(
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => AddAnimal()
               ),
             ),
           ),
