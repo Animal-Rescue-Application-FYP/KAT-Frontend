@@ -1,19 +1,12 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:kat_centre/Screen/User.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'detailAnimal.dart';
 
 class AnimalList extends StatelessWidget {
-  String phone='';
-  // ItemList({
-  //   this.phone
-  // });
-  // Random _random = new Random();
 
+  final String phone;
   void customLaunch(command) async{
     if(await canLaunch(command)){
       await launch(command);
@@ -23,7 +16,7 @@ class AnimalList extends StatelessWidget {
   }
 
   final List list;
-  AnimalList({this.list,this.phone});
+  AnimalList({this.list,@required this.phone});
   @override
   Widget build(BuildContext context) {
     return new ListView.builder(
@@ -33,7 +26,7 @@ class AnimalList extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: new GestureDetector(
             onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-              builder: (BuildContext context) => new DetailAnimal(
+              builder: (BuildContext context) => new AnimalDetails(
                 list: list,
                 index: i,
               ),
@@ -56,29 +49,9 @@ class AnimalList extends StatelessWidget {
                           list[i]['category'].toString(),
                           style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: Colors.black87),
                         ),
+                        //Text("${currentUser['user']['name']}"),
                       ],
                     ),
-                    //
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text(
-                    //       petName,
-                    //       style: TextStyle(
-                    //         fontSize: 20,
-                    //         fontWeight: FontWeight.bold,
-                    //       ),
-                    //     ),
-                    //     Icon(
-                    //       gender == 'female'
-                    //           ? FontAwesomeIcons.venus
-                    //           : FontAwesomeIcons.mars,
-                    //       size: 18,
-                    //       color: Colors.black54,
-                    //     )
-                    //   ],
-                    // ),
-                    //
                     Row(
                       children: [
                             new Text(
@@ -130,7 +103,6 @@ class AnimalList extends StatelessWidget {
                     ),
                   ],
                 ),
-
               ),
             ),
           ),

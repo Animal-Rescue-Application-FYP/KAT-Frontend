@@ -1,17 +1,12 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:kat_centre/Constant/Constants.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'signup.dart';
-import 'HomePage.dart';
-
-import '../mains.dart';
-import 'Register.dart';
-
-
+//import 'package:kat_centre/Screen/Registration.dart';
+import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
+//import 'Register.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -26,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent));
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: Text('Login Page'),
         backgroundColor: Colors.blue[900],
         actions: <Widget>[ //for toggle menu
@@ -42,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
             },
           )
         ],
-      ),
+      ),*/
       body: Container(
         child: _isLoading ? Center(child: CircularProgressIndicator()) : ListView(
           children: <Widget>[
@@ -75,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
           _isLoading = false;
         });
         sharedPreferences.setString("token", jsonResponse['token']);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), (Route<dynamic> route) => false);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => BottomNavigationPage()), (Route<dynamic> route) => false);
       }
     }
     else {
@@ -84,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
 
       });
       print(response.body);
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => sign_up()), (Route<dynamic> route) => false);
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
     }
   }
 
@@ -94,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Center(
         child: Image(
           image: AssetImage(
-              'images/katcentre_logo1.jpg'),
+              'images/KatCentre.jpg'),
           width: 150.0,
         ),
       ),
@@ -136,9 +131,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => Register()), //sign_up paila thyo
-                    );
+                    // Navigator.push(context, MaterialPageRoute(
+                    //     builder: (context) => Register()), //sign_up paila thyo
+                    // );
                   },
                 ),
               ),
@@ -200,29 +195,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-  // Container registrationSection() {
-  // return Container(
-  //   //making an alignment in x and y axis to place text in right side
-  //   padding: EdgeInsets.only(top: 15.0, left: 20.0),
-  //   child: InkWell( //gives tapping effect
-  //     child: FlatButton(
-  //       child: Text('Register a new account',
-  //         style: TextStyle(
-  //           color: Colors.blue[900],
-  //           fontWeight: FontWeight.bold,
-  //           decoration: TextDecoration.underline,
-  //         ),
-  //       ),
-  //       onPressed: (){
-  //         Navigator.push(context, MaterialPageRoute(
-  //             builder: (context) => sign_up()), //sign_up paila thyo
-  //         );
-  //       },
-  //     ),
-  //   ),
-  // ),
-  // }
 void choiceAction(String choice){
   print('WORKING');
 }

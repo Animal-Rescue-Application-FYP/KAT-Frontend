@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kat_centre/Animal/listAnimal.dart';
 import 'ItemList.dart';
 
 class ListHelpline extends StatefulWidget {
@@ -13,6 +13,7 @@ class ListHelpline extends StatefulWidget {
 class _ListHelplineState extends State<ListHelpline> {
 
   List data;
+
   Future<List> getData()async {
     final response = await http.get("http://10.0.2.2:8000/api/helpline/");
     return json.decode(response.body);
@@ -30,6 +31,13 @@ class _ListHelplineState extends State<ListHelpline> {
       appBar: new AppBar(
         title: new Text("Helpline Numbers"),
         backgroundColor: Colors.blue[900],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: (){
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                builder: (BuildContext context) => ListAnimal()));
+          },
+        ),
       ),
       body: new FutureBuilder<List>(
         future: getData(),

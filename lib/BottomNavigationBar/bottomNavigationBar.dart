@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kat_centre/Screen/HelplineNumbers.dart';
-import 'package:kat_centre/Screen/HomePage.dart';
 import 'package:kat_centre/Screen/NearbyHospitals.dart';
-import 'package:kat_centre/Screen/MedicalAssistance.dart';
-import 'package:kat_centre/Screen/User.dart';
 import 'package:kat_centre/Helpline/listHelpline.dart';
+import 'package:kat_centre/MedicalAssistance/listAssistance.dart';
+import 'package:kat_centre/Animal/listAnimal.dart';
+
 
 import 'package:flutter/material.dart';
 
@@ -20,11 +19,11 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
+    ListAnimal(),
     NearbyLocation(),
-    HelplineNumbers(),
+    ListHelpline(),
     // ListHelpline(),
-    MedicalAssistance(),
+    ListAssistance(),
     //Users(),
 
     // Categories(),

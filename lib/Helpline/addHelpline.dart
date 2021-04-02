@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kat_centre/Screen/HomePage.dart';
-import 'package:kat_centre/controller/databasehelpers.dart';
-import 'package:kat_centre/main.dart';
+import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
+import 'package:kat_centre/controller/databaseHelper.dart';
 
 class AddHelpline extends StatefulWidget {
 
@@ -33,7 +32,7 @@ class _AddHelplineState extends State<AddHelpline> {
             icon: Icon(Icons.arrow_back),
             onPressed: (){
               Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                  builder: (BuildContext context) => HomeScreen()));
+                  builder: (BuildContext context) => BottomNavigationPage()));
             },
           ),
         ),
@@ -41,16 +40,6 @@ class _AddHelplineState extends State<AddHelpline> {
           child: ListView(
             padding: const EdgeInsets.only(top: 30, left: 12.0, right: 12.0, bottom: 12.0),
             children: <Widget>[
-              Container(
-              padding: EdgeInsets.fromLTRB(15.0, 0, 15.0, 10.0),
-              child: Center(
-              child: Image(
-              image: AssetImage(
-              'images/katcentre_logo1.jpg'),
-              width: 150.0,
-              ),
-              ),
-              ),
               Container(
                 height: 50,
                 child: new TextField(
@@ -103,7 +92,7 @@ class _AddHelplineState extends State<AddHelpline> {
                         _phoneController.text.trim());
                           Navigator.of(context).push(
                             new MaterialPageRoute(
-                              builder: (BuildContext context) => new HomeScreen(),
+                              builder: (BuildContext context) => new BottomNavigationPage(),
                             ),
                           );
                   },

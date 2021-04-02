@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:kat_centre/Animal/editAnimal.dart';
 import 'package:kat_centre/Animal/listAnimal.dart';
-import 'package:kat_centre/controller/databasehelpers.dart';
+import 'package:kat_centre/controller/databaseHelper.dart';
 
-class DetailAnimal extends StatefulWidget {
+class AnimalDetails extends StatefulWidget {
 
-  List list;
-  int index;
-  DetailAnimal({this.index, this.list});
+  final List list;
+  final int index;
+  AnimalDetails({this.index, this.list});
 
   @override
-  _DetailAnimalState createState() => _DetailAnimalState();
+  _AnimalDetailsState createState() => _AnimalDetailsState();
 }
 
-class _DetailAnimalState extends State<DetailAnimal> {
+class _AnimalDetailsState extends State<AnimalDetails> {
 
   DatabaseHelper databaseHelper = new DatabaseHelper();
   // create function delete

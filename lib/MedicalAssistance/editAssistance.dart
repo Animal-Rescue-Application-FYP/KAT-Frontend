@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kat_centre/MedicalAssistance/listAssistance.dart';
-import 'package:kat_centre/controller/databasehelpers.dart';
+import 'package:kat_centre/controller/databaseHelper.dart';
 
 class EditAssistance extends StatefulWidget {
 
@@ -42,6 +42,7 @@ class _EditAssistanceState extends State<EditAssistance> {
               leading: const Icon(Icons.help, color: Colors.black),
               title: new TextFormField(
                   controller: controllerQuery,
+                  // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
                       return "Please enter query";
@@ -56,6 +57,7 @@ class _EditAssistanceState extends State<EditAssistance> {
               leading: const Icon(Icons.question_answer, color: Colors.black),
               title: new TextFormField(
                   controller: controllerURL,
+                  // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
                       return "Please enter solution link";

@@ -1,10 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:kat_centre/Constant/Constants.dart';
-import 'logmain.dart';
-// import 'signup.dart';
-import 'Decoration.dart';
+import 'Login.dart';
+// import 'Registration.dart';
+// import 'Decoration.dart';
 import 'package:http/http.dart' as http;
 
 class Register extends StatefulWidget {
@@ -74,7 +73,6 @@ class _RegisterState extends State<Register> {
                         return null;
                         },
                       onSaved: (String name){
-
                       },
                     ),
                     SizedBox(height: 20.0,),
@@ -103,25 +101,9 @@ class _RegisterState extends State<Register> {
                         return null;
                       },
                       onSaved: (String email){
-
                       },
                     ),
                     SizedBox(height: 20.0,),
-                    // TextFormField(
-                    //   decoration: InputDecoration(
-                    //     labelText: 'Contact Number',
-                    //     labelStyle: TextStyle(
-                    //       // fontFamily: 'Montserrat',
-                    //       fontWeight: FontWeight.bold,
-                    //       color: Colors.blueGrey,
-                    //     ),
-                    //     focusedBorder: UnderlineInputBorder(
-                    //       borderSide: BorderSide(color: Colors.blue[900]),
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(height: 20.0,),
-                    //gives spacing between 2 textfields i.e. email and pw
                     TextFormField(
                       controller: passwordController,
                       obscureText: true,
@@ -217,20 +199,21 @@ class _RegisterState extends State<Register> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Future RegistrationUser() async{
     var APIURL = "http://10.0.2.2:8000/api/register";
 
-    Map mapeddata = {
+    Map mappedData = {
       'name': nameController.text,
       'email': emailController.text,
       'password': passwordController.text
     };
-    print("JSON DATA: ${mapeddata}");
+    print("JSON DATA: $mappedData");
 
-    http.Response response = await http.post("APIURL", body:mapeddata);
+    http.Response response = await http.post("APIURL", body:mappedData);
     var data = jsonDecode(response.body);
 
-    print("DATA: ${data}");
+    print("DATA: $data");
   }
 }
 void choiceAction(String choice){

@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kat_centre/Animal/listAnimal.dart';
+import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
 import 'assistanceList.dart';
 
 class ListAssistance extends StatefulWidget {
@@ -12,7 +14,6 @@ class ListAssistance extends StatefulWidget {
 
 class _ListAssistanceState extends State<ListAssistance> {
 
-  List data;
   Future<List> getData()async {
     final response = await http.get("http://10.0.2.2:8000/api/assistance/");
     return json.decode(response.body);
@@ -24,12 +25,20 @@ class _ListAssistanceState extends State<ListAssistance> {
     this.getData();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Medical Assistance"),
         backgroundColor: Colors.blue[900],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: (){
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                builder: (BuildContext context) => BottomNavigationPage()));
+          },
+        ),
       ),
       body: new FutureBuilder<List>(
         future: getData(),

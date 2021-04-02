@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kat_centre/Screen/HomePage.dart';
-import 'package:kat_centre/controller/databasehelpers.dart';
+import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
+import 'package:kat_centre/controller/databaseHelper.dart';
 
 class AddAssistance extends StatefulWidget {
 
@@ -31,7 +31,7 @@ class _AddAssistanceState extends State<AddAssistance> {
             icon: Icon(Icons.arrow_back),
             onPressed: (){
               Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                  builder: (BuildContext context) => HomeScreen()));
+                  builder: (BuildContext context) => BottomNavigationPage()));
             },
           ),
         ),
@@ -63,7 +63,7 @@ class _AddAssistanceState extends State<AddAssistance> {
                   children: [
                     new TextField(
                       controller: _urlController,
-                      keyboardType: TextInputType.url,
+                      keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                         labelText: 'URL',
                         contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 3),
@@ -74,7 +74,6 @@ class _AddAssistanceState extends State<AddAssistance> {
                   ],
                 ),
               ),
-
               new Padding(padding: new EdgeInsets.only(top: 44.0),),
               Container(
                 height: 50,
@@ -85,7 +84,7 @@ class _AddAssistanceState extends State<AddAssistance> {
                         _urlController.text.trim());
                     Navigator.of(context).push(
                       new MaterialPageRoute(
-                        builder: (BuildContext context) => new HomeScreen(),
+                        builder: (BuildContext context) => new BottomNavigationPage(),
                       ),
                     );
                   },

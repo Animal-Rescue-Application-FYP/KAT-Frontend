@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kat_centre/Animal/listAnimal.dart';
-import 'package:kat_centre/controller/databasehelpers.dart';
+import 'package:kat_centre/controller/databaseHelper.dart';
 
 class EditAnimal extends StatefulWidget {
 
@@ -57,6 +57,7 @@ class _EditAnimalState extends State<EditAnimal> {
               leading: const Icon(Icons.pets, color: Colors.black),
               title: new TextFormField(
                   controller: controllerAnimalName,
+                  // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
                       return "Enter Animal Name";
@@ -71,6 +72,7 @@ class _EditAnimalState extends State<EditAnimal> {
               leading: const Icon(Icons.category, color: Colors.black),
               title: new TextFormField(
                   controller: controllerCategory,
+                  // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
                       return "Enter Category";
@@ -85,6 +87,7 @@ class _EditAnimalState extends State<EditAnimal> {
               leading: const Icon(Icons.cake, color: Colors.black),
               title: new TextFormField(
                   controller: controllerYear,
+                  // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
                       return "Enter Age of animal";
@@ -99,6 +102,7 @@ class _EditAnimalState extends State<EditAnimal> {
               leading: const Icon(FontAwesomeIcons.transgender, color: Colors.black),
               title: new TextFormField(
                   controller: controllerGender,
+                  // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
                       return "Enter Animal gender";
@@ -113,6 +117,7 @@ class _EditAnimalState extends State<EditAnimal> {
               leading: const Icon(Icons.location_on, color: Colors.black),
               title: new TextFormField(
                   controller: controllerAddress,
+                  // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
                       return "Please enter location";
@@ -127,6 +132,7 @@ class _EditAnimalState extends State<EditAnimal> {
               leading: const Icon(Icons.person, color: Colors.black),
               title: new TextFormField(
                   controller: controllerPostedBy,
+                  // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
                       return "Please enter your name";
@@ -141,6 +147,7 @@ class _EditAnimalState extends State<EditAnimal> {
               leading: const Icon(Icons.message, color: Colors.black),
               title: new TextFormField(
                   controller: controllerDescription,
+                  // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
                       return "@description....";

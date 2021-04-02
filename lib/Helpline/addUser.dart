@@ -1,5 +1,5 @@
 // import 'package:flutter/material.dart';
-// import 'package:kat_centre/controller/databasehelpers.dart';
+// import 'package:kat_centre/controller/databaseHelper.dart';
 //
 // class RegisterUser extends StatefulWidget {
 //

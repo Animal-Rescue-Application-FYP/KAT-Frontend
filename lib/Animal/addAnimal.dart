@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:kat_centre/Screen/HomePage.dart';
-import 'package:kat_centre/controller/databasehelpers.dart';
+import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
+import 'package:kat_centre/controller/databaseHelper.dart';
 
 class AddAnimal extends StatefulWidget {
 
-  AddAnimal({Key key, this.title}) : super(key : key);
+  AddAnimal({Key key, this.title, this.userId}) : super(key : key);
   final String title;
+  final userId;
 
   @override
   _AddAnimalState createState() => _AddAnimalState();
@@ -38,7 +39,7 @@ class _AddAnimalState extends State<AddAnimal> {
             icon: Icon(Icons.arrow_back),
             onPressed: (){
               Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                  builder: (BuildContext context) => HomeScreen()));
+                  builder: (BuildContext context) => BottomNavigationPage()));
             },
           ),
         ),
@@ -46,16 +47,6 @@ class _AddAnimalState extends State<AddAnimal> {
           child: ListView(
             padding: const EdgeInsets.only(top: 30, left: 12.0, right: 12.0, bottom: 12.0),
             children: <Widget>[
-              // Container(
-              //   padding: EdgeInsets.fromLTRB(15.0, 0, 15.0, 10.0),
-              //   child: Center(
-              //     child: Image(
-              //       image: AssetImage(
-              //           'images/katcentre_logo1.jpg'),
-              //       width: 150.0,
-              //     ),
-              //   ),
-              // ),
               Container(
                 height: 50,
                 child: Column(
@@ -196,11 +187,12 @@ class _AddAnimalState extends State<AddAnimal> {
                         _addressController.text.trim(),
                         _phoneController.text.trim(),
                         _postedByController.text.trim(),
-                        _descriptionController.text.trim());
+                        _descriptionController.text.trim(),
+                    widget.userId);
 
                     Navigator.of(context).push(
                       new MaterialPageRoute(
-                        builder: (BuildContext context) => new HomeScreen(),
+                        builder: (BuildContext context) => new BottomNavigationPage(),
                       ),
                     );
                   },

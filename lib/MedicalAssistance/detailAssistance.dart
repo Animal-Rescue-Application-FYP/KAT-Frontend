@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kat_centre/MedicalAssistance/editAssistance.dart';
 import 'package:kat_centre/MedicalAssistance/listAssistance.dart';
-import 'package:kat_centre/controller/databasehelpers.dart';
+import 'package:kat_centre/controller/databaseHelper.dart';
 
 class DetailAssistance extends StatefulWidget {
 
-  List list;
-  int index;
+  final List list;
+  final int index;
   DetailAssistance({this.index, this.list});
 
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kat_centre/Helpline/listHelpline.dart';
-import 'package:kat_centre/controller/databasehelpers.dart';
+import 'package:kat_centre/controller/databaseHelper.dart';
 
 class EditHelpline extends StatefulWidget {
 
@@ -31,7 +31,6 @@ class _EditHelplineState extends State<EditHelpline> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -46,6 +45,7 @@ class _EditHelplineState extends State<EditHelpline> {
               leading: const Icon(Icons.account_balance, color: Colors.black),
               title: new TextFormField(
                 controller: controllerName,
+                // ignore: missing_return
                 validator: (value) {
                   if (value.isEmpty)
                     return "Please enter a name";
@@ -60,6 +60,7 @@ class _EditHelplineState extends State<EditHelpline> {
               leading: const Icon(Icons.account_balance, color: Colors.black),
               title: new TextFormField(
                   controller: controllerAddress,
+                  // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
                       return "Please enter address";
@@ -74,6 +75,7 @@ class _EditHelplineState extends State<EditHelpline> {
               leading: const Icon(Icons.account_balance, color: Colors.black),
               title: new TextFormField(
                   controller: controllerPhone,
+                  // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
                       return "Please enter contact number";

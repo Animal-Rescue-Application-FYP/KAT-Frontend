@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kat_centre/Helpline/editHelpline.dart';
 import 'package:kat_centre/Helpline/listHelpline.dart';
-import 'package:kat_centre/controller/databasehelpers.dart';
+import 'package:kat_centre/controller/databaseHelper.dart';
 
 class DetailHelpline extends StatefulWidget {
 
-  List list;
-  int index;
+  final List list;
+  final int index;
   DetailHelpline({this.index, this.list});
 
   @override
@@ -88,7 +88,7 @@ class _DetailHelplineState extends State<DetailHelpline> {
                     onPressed: ()=>confirm(),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
