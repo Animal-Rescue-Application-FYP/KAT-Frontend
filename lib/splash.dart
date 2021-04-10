@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-
-import 'package:kat_centre/Screen/LoginPage.dart';
 import 'package:kat_centre/Screen/Login.dart';
 import 'mains.dart';
 

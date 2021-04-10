@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kat_centre/Animal/listAnimal.dart';
+import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
 import 'ItemList.dart';
 
 class ListHelpline extends StatefulWidget {
@@ -28,14 +29,19 @@ class _ListHelplineState extends State<ListHelpline> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      backgroundColor: Colors.blueGrey,
       appBar: new AppBar(
-        title: new Text("Helpline Numbers"),
-        backgroundColor: Colors.blue[900],
+        title: new Text("Helpline Numbers", style: TextStyle(
+            color: Colors.blue[900], fontWeight: FontWeight.bold
+        ),),
+        backgroundColor: Colors.white70,
+        shadowColor: Colors.blue[900],
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
+          color: Colors.blue[900],
           onPressed: (){
             Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                builder: (BuildContext context) => ListAnimal()));
+                builder: (BuildContext context) => BottomNavigationPage()));
           },
         ),
       ),

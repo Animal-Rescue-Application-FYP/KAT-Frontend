@@ -1,221 +1,228 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:kat_centre/Constant/Constants.dart';
-import 'Login.dart';
-// import 'Registration.dart';
-// import 'Decoration.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:kat_centre/Screen/Login.dart';
+import 'package:kat_centre/Screen/Register.dart';
+import 'package:kat_centre/Screen/snackbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:kat_centre/Screen/Registration.dart';
+import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
 
 class Register extends StatefulWidget {
-
   @override
   _RegisterState createState() => _RegisterState();
 }
 
 class _RegisterState extends State<Register> {
-
-  final TextEditingController nameController = new TextEditingController();
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
-  final TextEditingController confirmPasswordController = new TextEditingController();
-
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent));
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register'),
+        title: Text('Register Page'),
         backgroundColor: Colors.blue[900],
-        actions: <Widget>[ //for toggle menu
-          PopupMenuButton<String>(
-            onSelected: choiceAction,
-            itemBuilder: (BuildContext context){
-              return Constants.choices.map((String choice){
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
-          )
-        ],
       ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.fromLTRB(15.0, 50.0, 15.0, 0.0),
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      controller: nameController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        labelText: 'Full Name',
-                        labelStyle: TextStyle(
-                          // fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueGrey,
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue[900]),
-                        ),
-                      ),
-                        validator: (String value){
-                        if(value.isEmpty){
-                          return "Please enter name";
-                        }
-                        return null;
-                        },
-                      onSaved: (String name){
-                      },
-                    ),
-                    SizedBox(height: 20.0,),
-                    TextFormField(
-                      controller: emailController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        labelText: 'Email Address',
-                        labelStyle: TextStyle(
-                          // fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueGrey,
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue[900]),
-                        ),
-                      ),
-                      validator: (String value){
-                        if(value.isEmpty){
-                          return "Please enter email address";
-                        }
-                        if(!RegExp("^[a-zA-Z0-0+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value))
-                          {
-                            return "Please enter valid email address";
-                          }
-                        return null;
-                      },
-                      onSaved: (String email){
-                      },
-                    ),
-                    SizedBox(height: 20.0,),
-                    TextFormField(
-                      controller: passwordController,
-                      obscureText: true,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        labelText: 'New Password',
-                        labelStyle: TextStyle(
-                          // fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueGrey,
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue[900]),
-                        ),
-                      ),
-                      validator: (String value){
-                        if (value.isEmpty){
-                          return "Please enter password";
-                        }
-                        return null;
-                      },//makes pw invisible while typing
-                    ),
-                    SizedBox(height: 20.0,),
-                    //gives spacing between 2 textfields i.e. email and pw
-                    TextFormField(
-                      controller: confirmPasswordController,
-                      obscureText: true,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        labelText: 'Confirm Password',
-                        labelStyle: TextStyle(
-                          // fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueGrey,
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue[900]),
-                        ),
-                      ),
-                      validator: (String value){
-                        if(value.isEmpty){
-                          return "Please re-enter password";
-                        }
-                        if(passwordController.text != confirmPasswordController.text){
-                          return "Password is not matched";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 40.0,),
-                    Container(
-                      height: 40.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        shadowColor: Colors.indigo,
-                        color: Colors.blue[900],
-                        elevation: 7.0,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Center(
-                            // child: sign_up(),
-                            child: FlatButton(
-                              child: Text(
-                                'REGISTER',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              onPressed: (){
-                                if(formKey.currentState.validate()){
-                                  RegistrationUser();
-                                  print("Successfully registered!!!");
-                                }else{
-                                  print("Registration unsuccessful");
-                                }
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => LoginPage()),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+      body: Container(
+        child: _isLoading ? Center(child: CircularProgressIndicator()) : ListView(
+          children: <Widget>[
+            headerSection(),
+            textSection(),
+            buttonSection(),
+            // registrationSection(),
+          ],
         ),
       ),
     );
   }
-
-  // ignore: non_constant_identifier_names
-  Future RegistrationUser() async{
-    var APIURL = "http://10.0.2.2:8000/api/register";
-
-    Map mappedData = {
-      'name': nameController.text,
-      'email': emailController.text,
-      'password': passwordController.text
+  register(String name, email, phone, password) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map data = {
+      'name': name,
+      'email': email,
+      'phone':phone,
+      'password': password,
     };
-    print("JSON DATA: $mappedData");
+    var jsonResponse;
 
-    http.Response response = await http.post("APIURL", body:mappedData);
-    var data = jsonDecode(response.body);
+    var response =
+    await http.post("http://10.0.2.2:8000/api/register", body: data);
 
-    print("DATA: $data");
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      if (jsonResponse != null) {
+        setState(() {
+          _isLoading = false;
+        });
+        //createSnackBar('Successfully registered', Colors.green, context);
+        print(response.body);
+        sharedPreferences.setString("token", jsonResponse['token']);
+        /*Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+                (Route<dynamic> route) => false);*/
+      }
+      Navigator.of(context).push(
+        new MaterialPageRoute(builder: (BuildContext context) =>
+        new LoginPage(),),);
+    } else {
+      setState(() {
+        _isLoading = false;
+        //createSnackBar('Could not register', Colors.red, context);
+      });
+      print(response.body);
+      /*Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+              (Route<dynamic> route) => false);*/
+    }
   }
-}
-void choiceAction(String choice){
-  print('WORKING');
+  Container buttonSection() {
+    return Container(
+      child: Column(
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 40.0,
+              padding: EdgeInsets.symmetric(horizontal: 15.0),
+              margin: EdgeInsets.only(top: 15.0),
+              child: RaisedButton(
+                onPressed: registerNameController.text == "" || registerEmailController.text == "" || registerPhoneController.text == "" || registerPasswordController.text == "" || confirmPasswordController.text == "" ? null : () {
+                  setState(() {
+                    _isLoading = true;
+                    Text('Please wait');
+                    //createSnackBar('New user is registered successfully', Colors.green, context);
+                  });
+                  register(registerNameController.text, registerEmailController.text, registerPhoneController.text, registerPasswordController.text);
+                },
+                elevation: 0.0,
+                color: Colors.blue[900],
+                child: Text("Register", style: TextStyle(color: Colors.white70)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+              ),
+            ),
+            Container(
+              //making an alignment in x and y axis to place text in right side
+              padding: EdgeInsets.only(top: 15.0, left: 20.0),
+              child: InkWell( //gives tapping effect
+                child: FlatButton(
+                  child: Text('Already have an account?',
+                    style: TextStyle(
+                      color: Colors.blue[900],
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => LoginPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ]
+      ),
+    );
+  }
+
+  final TextEditingController registerNameController =
+  new TextEditingController();
+  final TextEditingController registerEmailController =
+  new TextEditingController();
+  final TextEditingController registerPhoneController =
+  new TextEditingController();
+  final TextEditingController registerPasswordController =
+  new TextEditingController();
+  final TextEditingController confirmPasswordController =
+  new TextEditingController();
+
+  Container textSection() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+      child: Column(
+        children: <Widget>[
+          TextFormField(
+            controller: registerNameController,
+            cursorColor: Colors.black87,
+
+            style: TextStyle(color: Colors.black87),
+            decoration: InputDecoration(
+              icon: Icon(Icons.person, color: Colors.blue[900]),
+              hintText: "Full Name",
+              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.black87),
+            ),
+          ),
+          SizedBox(height: 30.0),
+          TextFormField(
+            controller: registerEmailController,
+            cursorColor: Colors.black87,
+
+            style: TextStyle(color: Colors.black87),
+            decoration: InputDecoration(
+              icon: Icon(Icons.email, color: Colors.blue[900]),
+              hintText: "Email Address",
+              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.black87),
+            ),
+          ),
+          SizedBox(height: 30.0),
+          TextFormField(
+            controller: registerPhoneController,
+            cursorColor: Colors.black87,
+
+            style: TextStyle(color: Colors.black87),
+            decoration: InputDecoration(
+              icon: Icon(Icons.call, color: Colors.blue[900]),
+              hintText: "Phone Number",
+              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.black87),
+            ),
+          ),
+          SizedBox(height: 30.0),
+          TextFormField(
+            controller: registerPasswordController,
+            cursorColor: Colors.black87,
+            obscureText: true,
+            style: TextStyle(color: Colors.black87),
+            decoration: InputDecoration(
+              icon: Icon(Icons.lock, color: Colors.blue[900]),
+              hintText: "Password",
+              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.black87),
+            ),
+          ),
+          TextFormField(
+            controller: confirmPasswordController,
+            cursorColor: Colors.black87,
+            obscureText: true,
+            style: TextStyle(color: Colors.black87),
+            decoration: InputDecoration(
+              icon: Icon(Icons.lock_clock, color: Colors.blue[900]),
+              hintText: "Confirm Password",
+              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.black87),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container headerSection() {
+    return Container(
+      margin: EdgeInsets.only(top: 8.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+      child: Center(
+        child: Text("Welcome to KAT Registration",
+            style: TextStyle(
+                color: Colors.blue[900],
+                fontSize: 30.0,
+                fontWeight: FontWeight.bold)),
+      ),
+    );
+  }
 }

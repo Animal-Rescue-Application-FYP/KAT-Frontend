@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
 
 class NearbyLocation extends StatefulWidget {
   @override
@@ -21,21 +22,20 @@ class _NearbyLocationState extends State<NearbyLocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: new AppBar(
+        title: new Text("Animal Hospitals", style: TextStyle(
+            color: Colors.blue[900], fontWeight: FontWeight.bold
+        ),),
+        backgroundColor: Colors.white70,
+        shadowColor: Colors.blue[900],
         leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              //
-            }),
-        title: Text("Animal Hospitals"),
-        backgroundColor: Colors.blue[900],
-        // actions: <Widget>[
-        //   IconButton(
-        //       icon: Icon(FontAwesomeIcons.search),
-        //       onPressed: () {
-        //         //
-        //       }),
-        // ],
+          icon: Icon(Icons.arrow_back),
+          color: Colors.blue[900],
+          onPressed: (){
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                builder: (BuildContext context) => BottomNavigationPage()));
+          },
+        ),
       ),
       body: Stack(
         children: <Widget>[

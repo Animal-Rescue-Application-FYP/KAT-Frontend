@@ -29,11 +29,16 @@ class _ListAssistanceState extends State<ListAssistance> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      backgroundColor: Colors.blueGrey,
       appBar: new AppBar(
-        title: new Text("Medical Assistance"),
-        backgroundColor: Colors.blue[900],
+        title: new Text("Medical Assistance", style: TextStyle(
+            color: Colors.blue[900], fontWeight: FontWeight.bold
+        ),),
+        backgroundColor: Colors.white70,
+        shadowColor: Colors.blue[900],
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
+          color: Colors.blue[900],
           onPressed: (){
             Navigator.of(context).pushReplacement(new MaterialPageRoute(
                 builder: (BuildContext context) => BottomNavigationPage()));

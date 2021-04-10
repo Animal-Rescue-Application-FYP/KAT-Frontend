@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:kat_centre/Constant/Constants.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:kat_centre/Screen/Register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:kat_centre/Screen/Registration.dart';
 import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
-//import 'Register.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -16,28 +14,60 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   bool _isLoading = false;
+  bool _showPassword = false;
+
+  //
+  void loggedIn (){
+    AlertDialog alertDialog = new AlertDialog(
+      content: new Text("Successfully Logged In!"),
+      actions: <Widget>[
+        new RaisedButton(
+          child: new Text("OK",
+            style: new TextStyle(color: Colors.white),),
+          color: Colors.green[500],
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(50.0)
+          ),
+          onPressed: (){
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => BottomNavigationPage()), (Route<dynamic> route) => false);
+          },
+        ),
+      ],
+    );
+
+    showDialog(context: context, child: alertDialog);
+  }
+  //
+  void loggedInFail (){
+    AlertDialog alertDialog = new AlertDialog(
+      content: new Text("Please enter the correct login credentials"),
+      actions: <Widget>[
+        new RaisedButton(
+          child: new Text("OK",
+            style: new TextStyle(color: Colors.white),),
+          color: Colors.green[500],
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(50.0)
+          ),
+          onPressed: (){
+            setState(() {
+              _isLoading = false;
+            });
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+          },
+        ),
+      ],
+    );
+
+    showDialog(context: context, child: alertDialog);
+  }
+  //
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent));
     return Scaffold(
-      /*appBar: AppBar(
-        title: Text('Login Page'),
-        backgroundColor: Colors.blue[900],
-        actions: <Widget>[ //for toggle menu
-          PopupMenuButton<String>(
-            onSelected: choiceAction,
-            itemBuilder: (BuildContext context){
-              return Constants.choices.map((String choice){
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
-          )
-        ],
-      ),*/
       body: Container(
         child: _isLoading ? Center(child: CircularProgressIndicator()) : ListView(
           children: <Widget>[
@@ -70,16 +100,11 @@ class _LoginPageState extends State<LoginPage> {
           _isLoading = false;
         });
         sharedPreferences.setString("token", jsonResponse['token']);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => BottomNavigationPage()), (Route<dynamic> route) => false);
+        loggedIn();
       }
     }
     else {
-      setState(() {
-        _isLoading = false;
-
-      });
-      print(response.body);
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+      loggedInFail();
     }
   }
 
@@ -131,9 +156,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   onPressed: (){
-                    // Navigator.push(context, MaterialPageRoute(
-                    //     builder: (context) => Register()), //sign_up paila thyo
-                    // );
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => Register()), //sign_up paila thyo
+                    );
                   },
                 ),
               ),
@@ -167,15 +192,25 @@ class _LoginPageState extends State<LoginPage> {
           TextFormField(
             controller: passwordController,
             cursorColor: Colors.black87,
-            obscureText: true,
+            obscureText: !_showPassword,
             style: TextStyle(color: Colors.black87),
             decoration: InputDecoration(
               icon: Icon(Icons.lock, color: Colors.blue[900]),
               hintText: "Password",
               border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.black87),
+              suffixIcon: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _showPassword = !_showPassword;
+                  });
+                  },
+                child: Icon(
+                  _showPassword ? Icons.visibility : Icons.visibility_off,
+                ),
+              ),
             ),
-          ),
+            ),
         ],
       ),
     );
@@ -194,7 +229,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-}
-void choiceAction(String choice){
-  print('WORKING');
 }

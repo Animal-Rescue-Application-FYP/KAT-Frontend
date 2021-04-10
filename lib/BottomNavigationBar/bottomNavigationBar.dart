@@ -22,16 +22,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
     ListAnimal(),
     NearbyLocation(),
     ListHelpline(),
-    // ListHelpline(),
     ListAssistance(),
-    //Users(),
-
-    // Categories(),
-    // CartScreen(),
-    // MyOrders(),
-    // ProfilePage(),
-
-    // Profile()
   ];
 
   void _onItemTapped(int index) {

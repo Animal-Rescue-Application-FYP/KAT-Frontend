@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kat_centre/Animal/detailAnimal.dart';
+import 'package:kat_centre/Animal/editAnimal.dart';
 import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
+import 'package:kat_centre/Helpline/editHelpline.dart';
+import 'package:kat_centre/Screen/detailUser.dart';
 import 'package:kat_centre/Screen/editUser.dart';
 import 'package:kat_centre/controller/databaseHelper.dart';
 
@@ -10,132 +14,235 @@ class UserProfile extends StatelessWidget {
   final rescueData;
   final List list;
   final int index;
-  //final dataLength;
-  UserProfile({this.currentUser, this.rescueData, this.index, this.list});
+  final int dataLength;
+  UserProfile({this.currentUser, this.rescueData, this.list, this.index, this.dataLength});
   @override
   Widget build(BuildContext context) {
-    var widget;
+   // DatabaseHelper databaseHelper = new DatabaseHelper();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('User Profile'),
-        backgroundColor: Colors.blue[900],
+      backgroundColor: Colors.blueGrey,
+      appBar: new AppBar(
+        title: new Text("${currentUser['user']['name']}", style: TextStyle(
+            color: Colors.blue[900], fontWeight: FontWeight.bold
+        ),),
+        backgroundColor: Colors.white70,
+        shadowColor: Colors.blue[900],
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
+          color: Colors.blue[900],
           onPressed: (){
             Navigator.of(context).pushReplacement(new MaterialPageRoute(
                 builder: (BuildContext context) => BottomNavigationPage()));
           },
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.only(
-          top: 35,
-          bottom: 35,
-        ),
-        height: 250.0,
-        child: Row(
-          children: [
-            Expanded(
-              child: Container(
-                margin:
-                EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                   Row(
-                     children: [
-                       Column(
-                         children: <Widget>[
-                           Image(
-                             image: AssetImage(
-                                 'images/KatCentre.jpg'),
-                             width: 150.0,
+      body: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(
+              top: 1,
+              bottom: 5,
+            ),
+            height: 240.0,
+            child: Card(
+              elevation: 1,
+              margin: EdgeInsets.all(20),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50.0),
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      margin:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                         Padding(
+                           padding: const EdgeInsets.fromLTRB(40,0,0,0),
+                           child: Row(
+                             children: [
+                               /*Expanded(
+                                 child: Column(
+                                   children: <Widget>[
+                                     Image(
+                                       image: AssetImage(
+                                           'images/KatCentre.jpg'),
+                                       width: 150.0,
+                                     ),
+                                   ],
+                                 ),
+                               ),*/
+                               Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("${currentUser['user']['name']}",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Phone: ${currentUser['user']['phone']}",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.bold,
+                                            fontStyle: FontStyle.italic
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Email Address: ${currentUser['user']['email']}",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.bold,
+                                            fontStyle: FontStyle.italic
+                                        ),
+                                      ),
+                                    ),
+                                    RaisedButton(
+                                      child: new Text("Edit",
+                                      style: TextStyle(color: Colors.white),),
+                                      color: Colors.blue[800],
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius: new BorderRadius.circular(30.0),
+                                      ),
+                                      onPressed: () => {
+                                        Navigator.of(context).push(
+                                          new MaterialPageRoute(builder: (BuildContext context) =>
+                                          new EditUser(list: list, index: list.length),),)
+                                      },
+                                    ),
+                                  ],
+                                ),
+                             ],
                            ),
-                         ],
-                       ),
-                       Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Name: ${currentUser['user']['name']}",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text("Phone: ${currentUser['user']['phone']}",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text("Email Address: ${currentUser['user']['email']}",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            RaisedButton(
-                              child: new Text("Edit"),
-                              color: Colors.blue[800],
-                              shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0),
-                              ),
-                              onPressed: () => {
-                                Navigator.of(context).push(
-                                  new MaterialPageRoute(builder: (BuildContext context) =>
-                                  new EditUser(list: widget.list, index: widget.index),),)
-                              },
-                            ),
-                          ],
-                        ),
-                       // Container(
-                       //   decoration: BoxDecoration(
-                       //     //  color: randomColor,
-                       //     //  boxShadow: customShadow,
-                       //     borderRadius: BorderRadius.circular(22),
-                       //   ),
-                       //   margin: EdgeInsets.only(top: 50),
-                       // ),
-                       // Align(
-                       //   child: Hero(
-                       //     child: Image.asset(
-                       //         'images/KatCentre.jpg'
-                       //     ),
-                       //   ),
-                       // ),
-                     ],
-                   ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.blue[900],
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                    topLeft: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
+                         ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
-          ],
-        ),
-        // child: Card(
-        //   child: Column(
-        //       children: [
-        //               Text("${currentUser['user']['name']}",
-        //               ),
-        //               Text("${currentUser['user']['phone']}"),
-        //               Text("${currentUser['user']['email']}"),
-        //               //Text("${rescueData[2]['animalName']}"),
-        //         //
-        //       ],
-        //   ),
-        // ),
+          ),
+          Card(
+            elevation: 1,
+            margin: EdgeInsets.all(20),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Your Posts',
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.blue[900],
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 300,
+                  child: ListView.builder(
+                    itemCount: dataLength,
+                    itemBuilder: (BuildContext context, int index){
+                      return Container(
+                        child: GestureDetector(
+                          onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                            builder: (BuildContext context) => new AnimalDetails(
+                              list: rescueData,
+                              index: index,
+                            ),
+                          ),),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Card(
+                              elevation: 1,
+                              margin: EdgeInsets.all(20),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text('Animal Name: ${rescueData[index]['animalName']}',
+                                            style: TextStyle(fontSize: 20.0, color: Colors.black87, fontStyle: FontStyle.italic)
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('Category: ${rescueData[index]['category']}',
+                                            style: TextStyle(fontSize: 15.0, fontStyle: FontStyle.italic, color: Colors.black87)
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('Age: ${rescueData[index]['year']}',
+                                            style: TextStyle(fontSize: 15.0, fontStyle: FontStyle.italic, color: Colors.black87)
+                                        ),
+                                        SizedBox(
+                                          width: 30,
+                                        ),
+                                        Text('Gender: ${rescueData[index]['gender']}',
+                                            style: TextStyle(fontSize: 15.0, fontStyle: FontStyle.italic, color: Colors.black87)
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('Location: ${rescueData[index]['address']}',
+                                            style: TextStyle(fontSize: 15.0, fontStyle: FontStyle.italic, color: Colors.black87)
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('Phone: ${rescueData[index]['phone']}',
+                                            style: TextStyle(fontSize: 15.0, fontStyle: FontStyle.italic, color: Colors.black87)
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('Tap to Edit or Remove >>',
+                                            style: TextStyle(fontSize: 15.0, color: Colors.red, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

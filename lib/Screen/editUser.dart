@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kat_centre/MedicalAssistance/listAssistance.dart';
-import 'package:kat_centre/Screen/UserProfile.dart';
 import 'package:kat_centre/controller/databaseHelper.dart';
+import 'User.dart';
 
 class EditUser extends StatefulWidget {
 
@@ -9,6 +8,7 @@ class EditUser extends StatefulWidget {
   final int index;
 
   EditUser({this.list, this.index});
+
 
   @override
   _EditUserState createState() => _EditUserState();
@@ -18,20 +18,50 @@ class _EditUserState extends State<EditUser> {
 
   DatabaseHelper databaseHelper = new DatabaseHelper();
 
-  TextEditingController controllername;
-  TextEditingController controlleremail;
-  TextEditingController controllerphone;
-  TextEditingController controllerpassword;
+  TextEditingController controllerName;
+  TextEditingController controllerEmail;
+  TextEditingController controllerPhone;
   TextEditingController controllerId;
+
+  void editUser(){
+    AlertDialog alertDialog = new AlertDialog(
+      content: new Text("Are you sure, You want to update the changes?"),
+      actions: <Widget>[
+        new RaisedButton(
+          child: new Text("Yes",
+            style: new TextStyle(color: Colors.white),),
+          color: Colors.green[500],
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(50.0)
+          ),
+          onPressed: (){
+            databaseHelper.editUser(
+                controllerId.text.trim(), controllerName.text.trim(), controllerEmail.text.trim(), controllerPhone.text.trim()
+            );
+            getUsers(context);
+          },
+        ),
+        new RaisedButton(
+          child: new Text('Cancel',
+            style: TextStyle(color: Colors.white),),
+          color: Colors.red[900],
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(50.0)
+          ),
+          onPressed: ()=> Navigator.pop(context),),
+      ],
+    );
+
+    showDialog(context: context, child: alertDialog);
+  }
 
   @override
   void initState() {
     // TODO: implement initState
-    controllerId = new TextEditingController(text: widget.list[widget.index]['id'].toString());
-    controllername = new TextEditingController(text: widget.list[widget.index]['name'].toString());
-    controlleremail = new TextEditingController(text: widget.list[widget.index]['email'].toString());
-    controllerphone = new TextEditingController(text: widget.list[widget.index]['phone'].toString());
-    controllerpassword = new TextEditingController(text: widget.list[widget.index]['password'].toString());
+    controllerId = new TextEditingController(text: widget.list[0].toString());
+    controllerName = new TextEditingController(text: widget.list[1].toString());
+    controllerEmail = new TextEditingController(text: widget.list[2].toString());
+    controllerPhone = new TextEditingController(text: widget.list[3].toString());
     super.initState();
   }
 
@@ -39,7 +69,8 @@ class _EditUserState extends State<EditUser> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        title: new Text('Edit Medical Assistance'),
+        title: new Text('Edit User'),
+        backgroundColor: Colors.blue[900],
       ),
       body: Form(
         child: ListView(
@@ -48,7 +79,7 @@ class _EditUserState extends State<EditUser> {
             new ListTile(
               leading: const Icon(Icons.person, color: Colors.black),
               title: new TextFormField(
-                  controller: controllername,
+                  controller: controllerName,
                   // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
@@ -63,7 +94,7 @@ class _EditUserState extends State<EditUser> {
             new ListTile(
               leading: const Icon(Icons.email, color: Colors.black),
               title: new TextFormField(
-                  controller: controlleremail,
+                  controller: controllerEmail,
                   // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
@@ -78,7 +109,7 @@ class _EditUserState extends State<EditUser> {
             new ListTile(
               leading: const Icon(Icons.call, color: Colors.black),
               title: new TextFormField(
-                  controller: controllerphone,
+                  controller: controllerPhone,
                   // ignore: missing_return
                   validator: (value) {
                     if (value.isEmpty)
@@ -90,21 +121,6 @@ class _EditUserState extends State<EditUser> {
                   )
               ),
             ),
-            new ListTile(
-              leading: const Icon(Icons.lock_open, color: Colors.black),
-              title: new TextFormField(
-                  controller: controllerpassword,
-                  // ignore: missing_return
-                  validator: (value) {
-                    if (value.isEmpty)
-                      return "Please enter password";
-                  },
-                  decoration: new InputDecoration(
-                    hintText: "*****",
-                    labelText: "password",
-                  )
-              ),
-            ),
             const Divider(
               height: 1.0,
             ),
@@ -112,15 +128,13 @@ class _EditUserState extends State<EditUser> {
               padding: const EdgeInsets.all(10.0),
             ),
             new RaisedButton(
-              child: new Text('Edit'),
+              child: new Text('Edit', style: TextStyle(color: Colors.white),),
               color: Colors.blue[900],
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(50.0)
+              ),
               onPressed: (){
-                Navigator.of(context).push(
-                    new MaterialPageRoute(builder: (BuildContext context) => new UserProfile())
-                );
-                databaseHelper.editUser(
-                    controllerId.text.trim(), controllername.text.trim(), controlleremail.text.trim(), controllerphone.text.trim(), controllerpassword.text.trim()
-                );
+                editUser();
               },
             ),
           ],

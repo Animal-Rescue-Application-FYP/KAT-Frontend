@@ -47,49 +47,67 @@ class _DetailAssistanceState extends State<DetailAssistance> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("${widget.list[widget.index]['query']}"),
+        title: new Text("Medical Assistance Details"),
+        backgroundColor: Colors.blue[900],
       ),
       body: new Container(
-        height: 270.0,
+        height:1000.0,
         padding: const EdgeInsets.all(20.0),
-        child: new Card(
-          child: new Column(
-            children: <Widget>[
-              new Padding(padding: const EdgeInsets.only(top: 30.0),),
-              new Text(widget.list[widget.index]['query'],
-                style: new TextStyle(fontSize: 20.0),),
-              Divider(),
-              new Text("URL: ${widget.list[widget.index]['url']}",
-                style: new TextStyle(
-                    fontSize: 18.0
-                ),),
-              new Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  new RaisedButton(
-                    child: new Text("Edit"),
-                    color: Colors.blue[900],
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0),
-                    ),
-                    onPressed: () => {
-                      Navigator.of(context).push(
-                        new MaterialPageRoute(builder: (BuildContext context) =>
-                        new EditAssistance(list: widget.list, index: widget.index),),)
-                    },
+        child: SingleChildScrollView(
+          child: new Card(
+            child: new Column(
+              children: <Widget>[
+                new Padding(padding: const EdgeInsets.fromLTRB(5.0, 30.0, 5.0, 0),),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new Text(widget.list[widget.index]['query'],
+                    style: new TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.justify,
                   ),
-                  VerticalDivider(),
-                  new RaisedButton(
-                    child: new Text("Remove"),
-                    color: Colors.redAccent,
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0)
+                ),
+                Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new Text("${widget.list[widget.index]['description']}",
+                    style: new TextStyle(
+                        fontSize: 18.0
                     ),
-                    onPressed: ()=>confirm(),
+                    textAlign: TextAlign.justify,
                   ),
-                ],
-              )
-            ],
+                ),
+                Divider(),
+                new Text("URL: ${widget.list[widget.index]['url']}",
+                  style: new TextStyle(
+                      fontSize: 18.0, fontStyle: FontStyle.italic
+                  ),),
+                new Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    new RaisedButton(
+                      child: new Text("Edit"),
+                      color: Colors.blue[900],
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0),
+                      ),
+                      onPressed: () => {
+                        Navigator.of(context).push(
+                          new MaterialPageRoute(builder: (BuildContext context) =>
+                          new EditAssistance(list: widget.list, index: widget.index),),)
+                      },
+                    ),
+                    VerticalDivider(),
+                    new RaisedButton(
+                      child: new Text("Remove"),
+                      color: Colors.red[900],
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)
+                      ),
+                      onPressed: ()=>confirm(),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

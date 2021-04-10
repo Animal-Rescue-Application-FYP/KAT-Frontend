@@ -16,6 +16,7 @@ class _AddAssistanceState extends State<AddAssistance> {
   DatabaseHelper dataBaseHelper = new DatabaseHelper();
 
   final TextEditingController _queryController = new TextEditingController();
+  final TextEditingController _descriptionController = new TextEditingController();
   final TextEditingController _urlController = new TextEditingController();
 
   @override
@@ -59,6 +60,20 @@ class _AddAssistanceState extends State<AddAssistance> {
               new Padding(padding: new EdgeInsets.only(top: 44.0),),
               Container(
                 height: 50,
+                child: new TextField(
+                  controller: _descriptionController,
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecoration(
+                    labelText: 'Description',
+                    contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                    hintText: '@describe...',
+                    icon: new Icon(Icons.message),
+                  ),
+                ),
+              ),
+              new Padding(padding: new EdgeInsets.only(top: 44.0),),
+              Container(
+                height: 50,
                 child: Column(
                   children: [
                     new TextField(
@@ -81,6 +96,7 @@ class _AddAssistanceState extends State<AddAssistance> {
                   onPressed: (){
                     dataBaseHelper.addDataAssistance(
                         _queryController.text.trim(),
+                        _descriptionController.text.trim(),
                         _urlController.text.trim());
                     Navigator.of(context).push(
                       new MaterialPageRoute(

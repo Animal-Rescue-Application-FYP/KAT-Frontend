@@ -23,71 +23,87 @@ class ItemList extends StatelessWidget {
       itemBuilder: (context, i) {
         return new Container(
           padding: const EdgeInsets.all(10.0),
-          child: new GestureDetector(
-            onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-            builder: (BuildContext context) => new DetailHelpline(
-            list: list,
-            index: i,
+          child: new Card(
+            elevation: 1,
+            margin: EdgeInsets.all(5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
             ),
-        ),),
-            child: new Card(
-              child: Expanded(
-                child: new ListTile(
-                  title: Column(
+            child: new ListTile(
+              title: Column(
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.account_balance
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                          ),
-                          Expanded(
-                            child: new Text(
-                              list[i]['name'].toString(),
-                              style: TextStyle(fontSize: 25.0, color: Colors.black87),
-                            ),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(40,0,0,0),
+                        child: Icon(
+                          Icons.house,
+                          color: Colors.blue[900],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on_sharp
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(6.0),
-                          ),
-                          new Text(
-                            list[i]['address'].toString(),
-                            style: TextStyle(fontSize: 15.0, color: Colors.black87),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                       ),
-                      RaisedButton(
-                        padding: const EdgeInsets.fromLTRB(1, 0, 0, 0),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: new Text(
+                            list[i]['name'].toString(),
+                            style: TextStyle(fontSize: 25.0, color: Colors.blue[900], fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(40,0,0,0),
+                        child: Icon(
+                          Icons.location_on_sharp,
+                          color: Colors.red[900],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(6.0),
+                      ),
+                      new Text(
+                        list[i]['address'].toString(),
+                        style: TextStyle(fontSize: 15.0, color: Colors.red[900], fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,0,100,0),
+                    child: SizedBox(
+                      width: 170,
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0),
+                        ),
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                         child: Row(
                           children: [
                             Icon(
                               Icons.call,
+                              color: Colors.blue[900],
                             ),
                             Padding(
                               padding: const EdgeInsets.all(6.0),
                             ),
                             new Text(
                               list[i]['phone'].toString(),
-                              style: TextStyle(fontSize: 15.0, color: Colors.black87),
+                              style: TextStyle(fontSize: 15.0, color: Colors.blue[900]),
                             ),
                           ],
                         ),
                         onPressed: (){
-                          customLaunch('tel: $phone');
+                          customLaunch('tel: ${list[i]['phone'].toString()}');
                         },
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),

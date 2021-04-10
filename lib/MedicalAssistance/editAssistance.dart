@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
 import 'package:kat_centre/MedicalAssistance/listAssistance.dart';
 import 'package:kat_centre/controller/databaseHelper.dart';
 
@@ -16,6 +17,7 @@ class _EditAssistanceState extends State<EditAssistance> {
   DatabaseHelper databaseHelper = new DatabaseHelper();
 
   TextEditingController controllerQuery;
+  TextEditingController controllerDescription;
   TextEditingController controllerURL;
   TextEditingController controllerId;
 
@@ -24,6 +26,7 @@ class _EditAssistanceState extends State<EditAssistance> {
     // TODO: implement initState
     controllerId = new TextEditingController(text: widget.list[widget.index]['id'].toString());
     controllerQuery = new TextEditingController(text: widget.list[widget.index]['query'].toString());
+    controllerDescription = new TextEditingController(text: widget.list[widget.index]['description'].toString());
     controllerURL = new TextEditingController(text: widget.list[widget.index]['url'].toString());
     super.initState();
   }
@@ -54,7 +57,22 @@ class _EditAssistanceState extends State<EditAssistance> {
               ),
             ),
             new ListTile(
-              leading: const Icon(Icons.question_answer, color: Colors.black),
+              leading: const Icon(Icons.message, color: Colors.black),
+              title: new TextFormField(
+                  controller: controllerDescription,
+                  // ignore: missing_return
+                  validator: (value) {
+                    if (value.isEmpty)
+                      return "Please describe";
+                  },
+                  decoration: new InputDecoration(
+                    hintText: "describe..",
+                    labelText: "Description",
+                  )
+              ),
+            ),
+            new ListTile(
+              leading: const Icon(Icons.link, color: Colors.black),
               title: new TextFormField(
                   controller: controllerURL,
                   // ignore: missing_return
@@ -79,10 +97,10 @@ class _EditAssistanceState extends State<EditAssistance> {
               color: Colors.blue[900],
               onPressed: (){
                 Navigator.of(context).push(
-                    new MaterialPageRoute(builder: (BuildContext context) => new ListAssistance())
+                    new MaterialPageRoute(builder: (BuildContext context) => new BottomNavigationPage())
                 );
                 databaseHelper.editDataAssistance(
-                    controllerId.text.trim(), controllerQuery.text.trim(), controllerURL.text.trim()
+                    controllerId.text.trim(), controllerQuery.text.trim(), controllerDescription.text.trim(), controllerURL.text.trim()
                 );
               },
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kat_centre/AlertBox/AlertDialogLogin.dart';
 import 'package:kat_centre/Animal/addAnimal.dart';
 import 'package:kat_centre/Screen/UserProfile.dart';
 import 'package:kat_centre/controller/databaseHelper.dart';
@@ -20,7 +21,12 @@ getUsers(context) async {
             rescueData: userRescue,
             // userDetails: profile,
             // userRescue: userRescue,
-            //dataLength: userRescue.length,
+            dataLength: userRescue.length,
+            list: [currentUser['user']['id'],
+              currentUser['user']['name'],
+              currentUser['user']['email'],
+            currentUser['user']['phone'],
+            currentUser['user']['password']],
           )),
           (Route<dynamic> route) => false);
 }
@@ -41,4 +47,5 @@ getUserID(context) async {
           )),
           (Route<dynamic> route) => false);
 }
+
 

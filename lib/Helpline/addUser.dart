@@ -11,7 +11,7 @@
 // }
 //
 // class _RegisterUserState extends State<RegisterUser> {
-//   DatabaseHelper databas DatabaseHelper();
+//   DatabaseHelper database DatabaseHelper();
 //
 //   String msgStatus = '',
 //

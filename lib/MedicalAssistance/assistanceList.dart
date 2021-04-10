@@ -24,63 +24,85 @@ class AssistanceList extends StatelessWidget {
       itemBuilder: (context, i) {
         return new Container(
           padding: const EdgeInsets.all(10.0),
-          child: new GestureDetector(
-            onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-              builder: (BuildContext context) => new DetailAssistance(
-                list: list,
-                index: i,
-              ),
-            ),),
-            child: new Card(
-              child: new ListTile(
-                title: Column(
-                  children: [
-                    SingleChildScrollView(
+          child: new Card(
+            elevation: 1,
+            margin: EdgeInsets.all(5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            child: new ListTile(
+              title: Column(
+                children: [
+                  SingleChildScrollView(
+                    child: Row(
+                      children: [
+                        Icon(
+                            Icons.help
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                        ),
+                        Expanded(
+                          child: new Text(
+                            list[i]['query'].toString(),
+                            style: TextStyle(fontSize: 20.0, color: Colors.blueGrey[900], fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(5),
+                  ),
+                  SingleChildScrollView(
+                    child: Row(
+                      children: [
+                        // Icon(
+                        //     Icons.message
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(20.0),
+                        // ),
+                        Expanded(
+                          child: new Text(
+                            list[i]['description'].toString(),
+                            style: TextStyle(fontSize: 18.0, color: Colors.black87),
+                            textAlign: TextAlign.justify,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  FlatButton(
+                    onPressed: (){
+                      customLaunch('${list[i]['url'].toString()}');
+                    },
                       child: Row(
                         children: [
-                          Icon(
-                              Icons.help
-                          ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
-                          ),
-                          Expanded(
-                            child: new Text(
-                              list[i]['query'].toString(),
-                              style: TextStyle(fontSize: 25.0, color: Colors.black87),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    FlatButton(
-                      onPressed: (){
-                        customLaunch('$url');
-                      },
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.search,
-                              size:   12,
-                              color: Colors.blue[900],
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'View Suggestions Online',
+                            padding: const EdgeInsets.fromLTRB(100,0,0,0),
+                            child: Text(
+                              'View More',
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
+                                //decoration: TextDecoration.underline,
                                 color: Colors.blue[900],
                               ),
                             ),
-                          ],
-                        )
-                    ),
-                  ],
-                ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Icon(
+                            Icons.double_arrow_sharp,
+                            size:   16,
+                            color: Colors.blue[900],
+                          ),
+                        ],
+                      )
+                  ),
+                ],
               ),
             ),
           ),
@@ -88,5 +110,6 @@ class AssistanceList extends StatelessWidget {
       },
     );
   }
+
 }
 

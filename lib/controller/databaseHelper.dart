@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:kat_centre/Screen/Login.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
@@ -171,6 +172,7 @@ void addDataHelpline(String _nameController, String _addressController, String _
   //function for registering rescue animals
   void addDataAnimal(
       String _animalNameController,
+      //String _imageController,
       String _categoryController,
       String _yearController,
       String _genderController,
@@ -192,6 +194,7 @@ void addDataHelpline(String _nameController, String _addressController, String _
         },
         body: {
           "animalName":"$_animalNameController",
+          //"image":"$_imageController",
           "category":"$_categoryController",
           "year":"$_yearController",
           "gender":"$_genderController",
@@ -287,8 +290,8 @@ void addDataHelpline(String _nameController, String _addressController, String _
   }
 
   //--medical assistance--
-  //function for registering helpline numbers
-  void addDataAssistance(String _queryController, String _urlController) async {
+  //function for adding self assistance
+  void addDataAssistance(String _queryController, String _descriptionController, String _urlController) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;
@@ -301,6 +304,7 @@ void addDataHelpline(String _nameController, String _addressController, String _
         },
         body: {
           "query": "$_queryController",
+          "description": "$_descriptionController",
           "url": "$_urlController"
         }
     );
@@ -316,7 +320,7 @@ void addDataHelpline(String _nameController, String _addressController, String _
     }
   }
   //function for update
-  void editDataAssistance(String id, String query, String url) async {
+  void editDataAssistance(String id, String query, String description, String url) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;
@@ -329,6 +333,7 @@ void addDataHelpline(String _nameController, String _addressController, String _
         },
         body: {
           "query": "$query",
+          "description": "$description",
           "url": "$url",
         }
     ).then((response){
@@ -428,12 +433,12 @@ void addDataHelpline(String _nameController, String _addressController, String _
   }
 
   //editUser
-  void editUser(String id, String name, String address, String phone, String password) async {
+  void editUser(String id, String name, String address, String phone) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://10.0.2.2:8000/api/currentUser/$id";
+    String myUrl = "http://10.0.2.2:8000/api/editCurrentUser";
     http.put(myUrl,
         headers: {
           'Accept':'application/json',
@@ -441,9 +446,8 @@ void addDataHelpline(String _nameController, String _addressController, String _
         },
         body: {
           "name": "$name",
-          "address": "$address",
-          "phone": "$phone",
-          "password": "$password"
+          "email": "$address",
+          "phone": "$phone"
         }
     ).then((response){
       print('Response status : ${response.statusCode}');
@@ -452,26 +456,26 @@ void addDataHelpline(String _nameController, String _addressController, String _
   }
 
   //logout
-  // logout(BuildContext context) async {
-  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //   var token = sharedPreferences.getString("token");
-  //   Map data = {'token': token};
-  //   var url = "http://10.0.2.2:8000/api/logout";
-  //   http.Response response = await http.post(url, body: data);
-  //   var jsonResponse = json.decode(response.body);
-  //   if (response.statusCode == 200) {
-  //     print('jsonResponse:${jsonResponse["token"]}');
-  //     /*_save(jsonResponse["token"]);*/
-  //     Navigator.of(context).pushAndRemoveUntil(
-  //         MaterialPageRoute(builder: (BuildContext context) => Body()),
-  //             (Route<dynamic> route) => false);
-  //     createSnackBar('Successfully logged out', Colors.green, context);
-  //     print('$context');
-  //   } else {
-  //     print('jsonResponse: ${jsonResponse["error"]}');
-  //     createSnackBar('Could not logout', Colors.red, context);
-  //   }
-  // }
+  /*logout(BuildContext context) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var token = sharedPreferences.getString("token");
+    Map data = {'token': token};
+    var url = "http://10.0.2.2:8000/api/logout";
+    http.Response response = await http.post(url, body: data);
+    var jsonResponse = json.decode(response.body);
+    if (response.statusCode == 200) {
+      print('jsonResponse:${jsonResponse["token"]}');
+      *//*_save(jsonResponse["token"]);*//*
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+              (Route<dynamic> route) => false);
+      createSnackBar('Successfully logged out', Colors.green, context);
+      print('$context');
+    } else {
+      print('jsonResponse: ${jsonResponse["error"]}');
+      createSnackBar('Could not logout', Colors.red, context);
+    }
+  }*/
 
 
 }
