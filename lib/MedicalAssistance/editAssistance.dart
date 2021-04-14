@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
-import 'package:kat_centre/MedicalAssistance/listAssistance.dart';
 import 'package:kat_centre/controller/databaseHelper.dart';
 
 class EditAssistance extends StatefulWidget {

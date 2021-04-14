@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kat_centre/Animal/detailAnimal.dart';
-import 'package:kat_centre/Animal/editAnimal.dart';
 import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
-import 'package:kat_centre/Helpline/editHelpline.dart';
-import 'package:kat_centre/Screen/detailUser.dart';
 import 'package:kat_centre/Screen/editUser.dart';
-import 'package:kat_centre/controller/databaseHelper.dart';
-
 
 class UserProfile extends StatelessWidget {
-
   final currentUser;
   final rescueData;
   final List list;
@@ -64,17 +58,6 @@ class UserProfile extends StatelessWidget {
                            padding: const EdgeInsets.fromLTRB(40,0,0,0),
                            child: Row(
                              children: [
-                               /*Expanded(
-                                 child: Column(
-                                   children: <Widget>[
-                                     Image(
-                                       image: AssetImage(
-                                           'images/KatCentre.jpg'),
-                                       width: 150.0,
-                                     ),
-                                   ],
-                                 ),
-                               ),*/
                                Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [

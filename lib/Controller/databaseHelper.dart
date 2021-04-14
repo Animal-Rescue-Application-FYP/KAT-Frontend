@@ -1,9 +1,7 @@
 import 'package:http/http.dart' as http;
-import 'package:kat_centre/Screen/Login.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
-import 'package:kat_centre/Screen/snackbar.dart';
 
 class DatabaseHelper {
   String serverUrl = "http://10.0.2.2:8000/api/";
@@ -67,9 +65,9 @@ class DatabaseHelper {
   //--helpline--
   //function for registering helpline numbers
 void addDataHelpline(String _nameController, String _addressController, String _phoneController) async {
-  final prefs = await SharedPreferences.getInstance();
+/*  final prefs = await SharedPreferences.getInstance();
   final key = 'token';
-  final value = prefs.get(key) ?? 0;
+  final value = prefs.get(key) ?? 0;*/
 
   //String myUrl = "$serverUrl/api";
   String myUrl = "http://10.0.2.2:8000/api/helpline/";
@@ -116,7 +114,6 @@ void addDataHelpline(String _nameController, String _addressController, String _
       print('Response body: ${response.body}');
     });
   }
-
   //function for delete
   void removeRegister(String id) async {
     final prefs = await SharedPreferences.getInstance();
@@ -133,8 +130,6 @@ void addDataHelpline(String _nameController, String _addressController, String _
         print('Response body: ${response.body}');
     });
   }
-
-
   //function getData
   Future<List> getData() async{
     final prefs = await SharedPreferences.getInstance();
@@ -150,7 +145,6 @@ void addDataHelpline(String _nameController, String _addressController, String _
     );
     return json.decode(response.body);
   }
-
   //--currentUser
   Future<List> getDataCurrentUser() async{
     final prefs = await SharedPreferences.getInstance();
@@ -166,13 +160,11 @@ void addDataHelpline(String _nameController, String _addressController, String _
     );
     return json.decode(response.body);
   }
-
   //--animal
-
   //function for registering rescue animals
   void addDataAnimal(
       String _animalNameController,
-      //String _imageController,
+      String _imageController,
       String _categoryController,
       String _yearController,
       String _genderController,
@@ -182,10 +174,9 @@ void addDataHelpline(String _nameController, String _addressController, String _
       String _descriptionController,
       userID
       ) async {
-    final prefs = await SharedPreferences.getInstance();
+    /*final prefs = await SharedPreferences.getInstance();
     final key = 'token';
-    final value = prefs.get(key) ?? 0;
-
+    final value = prefs.get(key) ?? 0;*/
     //String myUrl = "$serverUrl/api";
     String myUrl = "http://10.0.2.2:8000/api/rescue/";
     final response = await http.post(myUrl,
@@ -194,7 +185,7 @@ void addDataHelpline(String _nameController, String _addressController, String _
         },
         body: {
           "animalName":"$_animalNameController",
-          //"image":"$_imageController",
+          "image":"$_imageController",
           "category":"$_categoryController",
           "year":"$_yearController",
           "gender":"$_genderController",
@@ -216,7 +207,6 @@ void addDataHelpline(String _nameController, String _addressController, String _
       _save(data["token"]);
     }
   }
-
   //function for update animal
   void editDataAnimal(
       String id,
@@ -254,7 +244,6 @@ void addDataHelpline(String _nameController, String _addressController, String _
       print('Response body: ${response.body}');
     });
   }
-
   //function for deleting rescue post
   void removeAnimal(String id) async {
     final prefs = await SharedPreferences.getInstance();
@@ -271,8 +260,6 @@ void addDataHelpline(String _nameController, String _addressController, String _
       print('Response body: ${response.body}');
     });
   }
-
-
   //function getData
   Future<List> getDataAnimal() async{
     final prefs = await SharedPreferences.getInstance();
@@ -288,13 +275,12 @@ void addDataHelpline(String _nameController, String _addressController, String _
     );
     return json.decode(response.body);
   }
-
   //--medical assistance--
   //function for adding self assistance
   void addDataAssistance(String _queryController, String _descriptionController, String _urlController) async {
-    final prefs = await SharedPreferences.getInstance();
+    /*final prefs = await SharedPreferences.getInstance();
     final key = 'token';
-    final value = prefs.get(key) ?? 0;
+    final value = prefs.get(key) ?? 0;*/
 
     //String myUrl = "$serverUrl/api";
     String myUrl = "http://10.0.2.2:8000/api/assistance/";
@@ -341,7 +327,6 @@ void addDataHelpline(String _nameController, String _addressController, String _
       print('Response body: ${response.body}');
     });
   }
-
   //function for delete
   void removeAssistance(String id) async {
     final prefs = await SharedPreferences.getInstance();

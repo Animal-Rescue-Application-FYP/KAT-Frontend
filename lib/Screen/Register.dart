@@ -1,14 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:kat_centre/Constant/Constants.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:kat_centre/Screen/Login.dart';
-import 'package:kat_centre/Screen/Register.dart';
-import 'package:kat_centre/Screen/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:kat_centre/Screen/Registration.dart';
-import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -31,7 +26,6 @@ class _RegisterState extends State<Register> {
             headerSection(),
             textSection(),
             buttonSection(),
-            // registrationSection(),
           ],
         ),
       ),
@@ -58,12 +52,8 @@ class _RegisterState extends State<Register> {
         setState(() {
           _isLoading = false;
         });
-        //createSnackBar('Successfully registered', Colors.green, context);
         print(response.body);
         sharedPreferences.setString("token", jsonResponse['token']);
-        /*Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-                (Route<dynamic> route) => false);*/
       }
       Navigator.of(context).push(
         new MaterialPageRoute(builder: (BuildContext context) =>
@@ -71,12 +61,8 @@ class _RegisterState extends State<Register> {
     } else {
       setState(() {
         _isLoading = false;
-        //createSnackBar('Could not register', Colors.red, context);
       });
       print(response.body);
-      /*Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-              (Route<dynamic> route) => false);*/
     }
   }
   Container buttonSection() {

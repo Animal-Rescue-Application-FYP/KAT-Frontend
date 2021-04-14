@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:core';
-
 import 'package:flutter/material.dart';
 import 'package:kat_centre/Screen/Login.dart';
-import 'mains.dart';
-
 
 class SplashDisplay extends StatefulWidget {
   final Color backgroundColor;
@@ -30,7 +27,6 @@ class _SplashDisplayState extends State<SplashDisplay> {
     Timer(Duration(seconds: 5), () {
       // It's fairly safe to assume this is using the in-built material
       // named route component
-
       Navigator.of(context).pushReplacement(new MaterialPageRoute(
           builder: (BuildContext context) => LoginPage()));
     });
@@ -82,13 +78,13 @@ class _SplashDisplayState extends State<SplashDisplay> {
                             'Welcome to KAT Nepal',
                             style: new TextStyle(
                               color: Colors.blue[900],
-                              //fontFamily: 'Acme',
                               fontWeight: FontWeight.bold,
                               fontSize: 25.0,
                             ),
                           ),
                         ],
-                      )),
+                      ),
+                  ),
                 ),
                 Expanded(
                   flex: 1,

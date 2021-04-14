@@ -27,6 +27,48 @@ class _EditAnimalState extends State<EditAnimal> {
   TextEditingController controllerDescription;
   TextEditingController controllerId;
 
+  void editAnimals (){
+    AlertDialog alertDialog = new AlertDialog(
+      content: new Text("Are you sure, You want to update the changes?"),
+      actions: <Widget>[
+        new RaisedButton(
+          child: new Text("Yes",
+            style: new TextStyle(color: Colors.white),),
+          color: Colors.green[500],
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(50.0)
+          ),
+          onPressed: (){
+            Navigator.of(context).push(
+                new MaterialPageRoute(builder: (BuildContext context) => new ListAnimal(),)
+            );
+            databaseHelper.editDataAnimal(
+                controllerId.text.trim(),
+                controllerAnimalName.text.trim(),
+                controllerCategory.text.trim(),
+                controllerYear.text.trim(),
+                controllerGender.text.trim(),
+                controllerAddress.text.trim(),
+                controllerPhone.text.trim(),
+                controllerPostedBy.text.trim(),
+                controllerDescription.text.trim()
+            );
+          },
+        ),
+        new RaisedButton(
+          child: new Text('Cancel',
+            style: TextStyle(color: Colors.white),),
+          color: Colors.red[900],
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(50.0)
+          ),
+          onPressed: ()=> Navigator.pop(context),),
+      ],
+    );
+
+    showDialog(context: context, child: alertDialog);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -185,20 +227,7 @@ class _EditAnimalState extends State<EditAnimal> {
                       borderRadius: new BorderRadius.circular(50.0)
                   ),
                   onPressed: (){
-                    Navigator.of(context).push(
-                        new MaterialPageRoute(builder: (BuildContext context) => new ListAnimal(),)
-                    );
-                    databaseHelper.editDataAnimal(
-                        controllerId.text.trim(),
-                        controllerAnimalName.text.trim(),
-                        controllerCategory.text.trim(),
-                        controllerYear.text.trim(),
-                        controllerGender.text.trim(),
-                        controllerAddress.text.trim(),
-                        controllerPhone.text.trim(),
-                        controllerPostedBy.text.trim(),
-                        controllerDescription.text.trim()
-                    );
+                    editAnimals();
                   },
                 ),
               ),

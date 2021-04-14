@@ -235,16 +235,6 @@ class _NearbyLocationState extends State<NearbyLocation> {
               ],
             )),
         SizedBox(height:5.0),
-        // Container(
-        //     child: Text(
-        //       "Nepal",
-        //       // "American \u00B7 \u0024\u0024 \u00B7 1.6 mi",
-        //       style: TextStyle(
-        //         color: Colors.black54,
-        //         fontSize: 18.0,
-        //       ),
-        //     )),
-        // SizedBox(height:5.0),
         Container(
             child: Text(
               "Closed \u00B7 Opens 17:00 Thu",

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:kat_centre/Animal/animalDescription.dart';
-import 'package:kat_centre/Screen/User.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'detailAnimal.dart';
 
 class AnimalList extends StatelessWidget {
 

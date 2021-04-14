@@ -1,9 +1,7 @@
 import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
-import 'package:kat_centre/Constant/Constants.dart';
+import 'file:///F:/Year%203/Final%20Year%20Project/Final%20Project/kat_centre/lib/PopupActionPages/Constants.dart';
 import 'package:kat_centre/ExtraFeatures/Donation.dart';
 import 'package:kat_centre/ExtraFeatures/ShopLocation.dart';
-import 'package:kat_centre/Helpline/addHelpline.dart';
-import 'package:kat_centre/MedicalAssistance/addAssistance.dart';
 import 'package:kat_centre/PopupActionPages/DevelopersContact.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +24,6 @@ class _ListAnimalState extends State<ListAnimal> {
     return json.decode(response.body);
   }
 
-  //
   void loggedOut (){
     AlertDialog alertDialog = new AlertDialog(
       content: new Text("Are you sure, You want to log out?"),
@@ -57,7 +54,6 @@ class _ListAnimalState extends State<ListAnimal> {
 
     showDialog(context: context, child: alertDialog);
   }
-  //
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +138,8 @@ class _ListAnimalState extends State<ListAnimal> {
                             ),
                           ],
                         ),
-                      )),
+                      ),
+                  ),
                 ),
                 Divider(
                   color: Colors.blue[200],
@@ -156,25 +153,12 @@ class _ListAnimalState extends State<ListAnimal> {
                 {
                   getUsers(context),
                 },),
-                // GestureDetector(
-                //   // onTap: getUsers(context),
-                // ),
                 CustomListTile(
                   Icons.pets,'Add Animals', () =>
                 {
                   getUserID(context),
 
                 },),
-                /*CustomListTile(Icons.account_balance,'Add Helpline Number',() =>
-                {
-                  Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                      builder: (BuildContext context) => AddHelpline()))
-                },),
-                CustomListTile(Icons.help_outline,'Add Medical Assistance',() =>
-                {
-                  Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                      builder: (BuildContext context) => AddAssistance()))
-                },),*/
                 CustomListTile(Icons.attach_money_sharp,'Donation',() =>
                 {
                   Navigator.of(context).pushReplacement(new MaterialPageRoute(
@@ -198,31 +182,7 @@ class _ListAnimalState extends State<ListAnimal> {
         ),
       ),
     );
-
   }
-
-/*
-  logout(BuildContext context) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var token = sharedPreferences.getString("token");
-    Map data = {'token': token};
-    var url = "http://10.0.2.2:8000/api/logout";
-    http.Response response = await http.post(url, body: data);
-    var jsonResponse = json.decode(response.body);
-    if (response.statusCode == 200) {
-      print('jsonResponse:${jsonResponse["token"]}');
-      *//*_save(jsonResponse["token"]);*//*
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-              (Route<dynamic> route) => false);
-      //createSnackBar('Successfully logged out', Colors.green, context);
-      print('$context');
-    } else {
-      print('jsonResponse: ${jsonResponse["error"]}');
-      //createSnackBar('Could not logout', Colors.red, context);
-    }
-  }
-*/
 }
 
 // ignore: must_be_immutable
@@ -251,7 +211,7 @@ class CustomListTile extends StatelessWidget {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Icon(icon, color: Colors.blue,),
+                    Icon(icon, color: Colors.blue),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(text,
@@ -259,11 +219,11 @@ class CustomListTile extends StatelessWidget {
                           fontSize: 16.0,
                           color: Colors.white,
                           fontWeight: FontWeight.w600
-                        ),),
-                    )
+                        ),
+                      ),
+                    ),
                   ],
-                ),
-                //Icon(Icons.arrow_right)
+                ),//Icon(Icons.arrow_right)
               ],
             ),
           ),

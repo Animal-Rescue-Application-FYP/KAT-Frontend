@@ -188,7 +188,6 @@ class _AnimalDescriptionState extends State<AnimalDescription> {
                   ),
                 ),
                 Padding(padding: const EdgeInsets.all(10.0)),
-
               ],
             ),
           ),

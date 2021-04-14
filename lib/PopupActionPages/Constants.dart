@@ -1,5 +1,3 @@
-import 'Developer.dart';
-
 class Constants{
   static const String Feedback = 'Feedback';
   static const String Help = 'Help';

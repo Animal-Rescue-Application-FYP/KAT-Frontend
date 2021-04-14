@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:kat_centre/Screen/ForgotPassword.dart';
 import 'package:kat_centre/Screen/Register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
@@ -145,12 +146,35 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Container(
               //making an alignment in x and y axis to place text in right side
+              padding: EdgeInsets.only(left: 240.0),
+              child: InkWell( //gives tapping effect
+                child: FlatButton(
+                  child: Text('Forgot Password?',
+                    style: TextStyle(
+                      color: Colors.blueGrey,
+                      fontSize: 15,
+                      //fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>ForgotPassword()), //sign_up paila thyo
+                    );
+                  },
+                ),
+              ),
+            ),
+            Container(
+              //making an alignment in x and y axis to place text in right side
               padding: EdgeInsets.only(top: 15.0, left: 20.0),
               child: InkWell( //gives tapping effect
                 child: FlatButton(
                   child: Text('Register a new account',
                     style: TextStyle(
                       color: Colors.blue[900],
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
                     ),

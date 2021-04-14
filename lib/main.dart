@@ -1,11 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kat_centre/splash.dart';
-
-//
-import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'file:///F:/Year%203/Final%20Year%20Project/Final%20Project/kat_centre/lib/Splash%20Screen/splash.dart';
 
 void main() {
   runApp(MyApp());
