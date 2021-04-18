@@ -2,6 +2,7 @@ import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
 import 'file:///F:/Year%203/Final%20Year%20Project/Final%20Project/kat_centre/lib/PopupActionPages/Constants.dart';
 import 'package:kat_centre/ExtraFeatures/Donation.dart';
 import 'package:kat_centre/ExtraFeatures/ShopLocation.dart';
+import 'package:kat_centre/Helpline/addHelpline.dart';
 import 'package:kat_centre/PopupActionPages/DevelopersContact.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -159,16 +160,23 @@ class _ListAnimalState extends State<ListAnimal> {
                   getUserID(context),
 
                 },),
+               /* CustomListTile(
+                  Icons.pets,'Add hp', () =>
+                {
+                  Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                      builder: (BuildContext context) => AddHelpline()))
+
+                },),*/
                 CustomListTile(Icons.attach_money_sharp,'Donation',() =>
                 {
                   Navigator.of(context).pushReplacement(new MaterialPageRoute(
                       builder: (BuildContext context) => Donation()))
                 },),
-                CustomListTile(Icons.shop,'Animal Essentials',() =>
+                /*CustomListTile(Icons.shop,'Animal Essentials',() =>
                 {
                   Navigator.of(context).pushReplacement(new MaterialPageRoute(
                       builder: (BuildContext context) => SnackBarDemo()))
-                },),
+                },),*/
                 Divider(
                   color: Colors.blue[200]
                 ),

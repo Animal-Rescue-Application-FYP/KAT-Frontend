@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true"/>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain>http://localhost:8000/api</domain>
+        <domain>a.http://localhost:8000/api</domain>
+    </domain-config>
+</network-security-config>

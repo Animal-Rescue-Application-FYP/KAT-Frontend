@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,14 +20,230 @@ class DatabaseHelper {
   loginData(String email, String password) async {
     String myUrl = "$serverUrl/login";
     final response = await http.post(myUrl,
-        headers: {
-          'Accept' : 'application/json'
-        },
-        body: {
-          "email": "$email",
-          "password": "$password"
-        }
+        headers: {'Accept': 'application/json'},
+        body: {"email": "$email", "password": "$password"});
+    status = response.body.contains('error');
+
+    var data = json.decode(response.body);
+    print(data);
+    if (status) {
+      print('data : ${data["error"]}');
+    } else {
+      print('data : ${data["token"]}');
+      _save(data["token"]);
+    }
+  }
+
+  //create function for register users
+  registerUserData(
+      String name, String email, String phone, String password) async {
+    String myUrl = "$serverUrl/register";
+    final response = await http.post(myUrl, headers: {
+      'Accept': 'application/json'
+    }, body: {
+      "name": "$name",
+      "email": "$email",
+      "phone": "$phone",
+      "password": "$password"
+    });
+    status = response.body.contains('error');
+
+    var data = json.decode(response.body);
+
+    if (status) {
+      print('data: ${data["error"]}');
+    } else {
+      print('data: {$data["token"]}');
+      _save(data["token"]);
+    }
+  }
+
+  //--helpline--
+  //function for registering helpline numbers
+  void addDataHelpline(String _nameController, String _addressController,
+      String _phoneController) async {
+/*  final prefs = await SharedPreferences.getInstance();
+  final key = 'token';
+  final value = prefs.get(key) ?? 0;*/
+
+    //String myUrl = "$serverUrl/api";
+    String myUrl = "http://10.0.2.2:8000/api/helpline/";
+    final response = await http.post(myUrl, headers: {
+      'Accept': 'application/json'
+    }, body: {
+      "name": "$_nameController",
+      "address": "$_addressController",
+      "phone": "$_phoneController"
+    });
+    status = response.body.contains('error');
+
+    var data = json.decode(response.body);
+
+    if (status) {
+      print('data : ${data["error"]}');
+    } else {
+      print('data : ${data["token"]}');
+      _save(data["token"]);
+    }
+  }
+
+  //function for update
+  void editData(String id, String name, String address, String phone) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'token';
+    final value = prefs.get(key) ?? 0;
+
+    String myUrl = "http://10.0.2.2:8000/api/helpline/$id";
+    http.put(myUrl, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $value'
+    }, body: {
+      "name": "$name",
+      "address": "$address",
+      "phone": "$phone"
+    }).then((response) {
+      print('Response status : ${response.statusCode}');
+      print('Response body: ${response.body}');
+    });
+  }
+
+  //function for delete
+  void removeRegister(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'token';
+    final value = prefs.get(key) ?? 0;
+
+    String myUrl = "http://10.0.2.2:8000/api/helpline/$id";
+    http.delete(myUrl, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $value'
+    }).then((response) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    });
+  }
+
+  //function getData
+  Future<List> getData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'token';
+    final value = prefs.get(key) ?? 0;
+
+    String myUrl = "$serverUrlHelpline";
+    http.Response response = await http.get(myUrl, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $value'
+    });
+    return json.decode(response.body);
+  }
+
+  //--currentUser
+  Future<List> getDataCurrentUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'token';
+    final value = prefs.get(key) ?? 0;
+
+    String myUrl = "$serverUrlCurrentUser";
+    http.Response response = await http.get(myUrl, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $value'
+    });
+    return json.decode(response.body);
+  }
+
+  //--animal
+  //function for registering rescue animals
+  void addDataAnimal(
+      String _animalNameController,
+      File _imageController,
+      String _categoryController,
+      String _yearController,
+      String _genderController,
+      String _addressController,
+      String _phoneController,
+      String _postedByController,
+      String _descriptionController,
+      userID) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'token';
+    final value = prefs.get(key) ?? 0;
+
+    String myUrl = "http://10.0.2.2:8000/api/rescue/";
+
+    Map<String, String> headers = {
+      "Authorization": "Bearer $value",
+      "Content-type": "multipart/form-data"
+    };
+/*    http.Response response = await http.get(myUrl, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $value'
+    });*/
+
+    var request = http.MultipartRequest("POST", Uri.parse(myUrl));
+    //add text fields
+    /*request.files.add(
+      await http.MultipartFile.fromPath(
+          "image", _imageController.path.toString()),
+    );*/
+    request.files.add(
+      http.MultipartFile('image', _imageController.readAsBytes().asStream(),
+          _imageController.lengthSync(),
+          filename: '2.jpg'),
     );
+
+    request.headers.addAll(headers);
+
+    print(_animalNameController);
+    print(_categoryController);
+    print(_yearController);
+    print(_genderController);
+    print(_addressController);
+    print(_phoneController);
+    print(_postedByController);
+    print(_descriptionController);
+
+    request.fields["animalName"] = _animalNameController;
+    request.fields["category"] = _categoryController;
+    request.fields["year"] = _yearController;
+    request.fields["gender"] = _genderController;
+    request.fields["address"] = _addressController;
+    request.fields["phone"] = _phoneController;
+    request.fields["postedBy"] = _postedByController;
+    request.fields["description"] = _descriptionController;
+    request.fields["user_id"] = userID.toString();
+
+    final streamedResponse = await request.send();
+
+    //Get the response from the server
+    final response = await http.Response.fromStream(streamedResponse);
+
+    if (response.body != null) {
+      final int statusCode = response.statusCode;
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        print(statusCode);
+        throw new Exception("Error while fetching data");
+      } else if (statusCode == 404) {
+        throw new Exception("Entity Not Found");
+      } else {
+        //return _decoder.convert(response.body);
+
+      }
+    }
+    status = response.body.contains('error');
+
+/*    if(response.body != null){
+      final int statusCode = response.statusCode;
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
+      }
+
+      else if(statusCode == 404) {
+        throw new Exception("Entity Not Found");
+      }
+      else{
+        return _decoder.convert(response.body);
+      }
+    }
     status = response.body.contains('error');
 
     var data = json.decode(response.body);
@@ -34,156 +253,19 @@ class DatabaseHelper {
     }else{
       print('data : ${data["token"]}');
       _save(data["token"]);
-    }
-  }
+    }*/
 
-  //create function for register users
-  registerUserData(String name, String email, String phone, String password) async {
-    String myUrl = "$serverUrl/register";
-    final response = await http.post(myUrl,
-    headers: {
-    'Accept' : 'application/json'
-    },
-        body: {
-          "name": "$name",
-          "email": "$email",
-          "phone": "$phone",
-          "password": "$password"
-        }
-    );
-    status = response.body.contains('error');
-
-    var data = json.decode(response.body);
-
-    if(status){
-      print('data: ${data["error"]}');
-    }else{
-      print('data: {$data["token"]}');
-      _save(data["token"]);
-    }
-  }
-  //--helpline--
-  //function for registering helpline numbers
-void addDataHelpline(String _nameController, String _addressController, String _phoneController) async {
-/*  final prefs = await SharedPreferences.getInstance();
-  final key = 'token';
-  final value = prefs.get(key) ?? 0;*/
-
-  //String myUrl = "$serverUrl/api";
-  String myUrl = "http://10.0.2.2:8000/api/helpline/";
-  final response = await http.post(myUrl,
-    headers: {
-        'Accept':'application/json'
-    },
-    body: {
-      "name": "$_nameController",
-      "address": "$_addressController",
-      "phone": "$_phoneController"
-    }
-  );
-  status = response.body.contains('error');
-
-  var data = json.decode(response.body);
-
-  if(status){
-    print('data : ${data["error"]}');
-  }else{
-    print('data : ${data["token"]}');
-    _save(data["token"]);
-  }
-}
-  //function for update
-  void editData(String id, String name, String address, String phone) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key) ?? 0;
-
-    String myUrl = "http://10.0.2.2:8000/api/helpline/$id";
-    http.put(myUrl,
-      headers: {
-        'Accept':'application/json',
-        'Authorization':'Bearer $value'
-      },
-      body: {
-        "name": "$name",
-        "address": "$address",
-        "phone": "$phone"
-      }
-    ).then((response){
-      print('Response status : ${response.statusCode}');
-      print('Response body: ${response.body}');
-    });
-  }
-  //function for delete
-  void removeRegister(String id) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key) ?? 0;
-
-    String myUrl = "http://10.0.2.2:8000/api/helpline/$id";
-    http.delete(myUrl,
-      headers: {
-        'Accept':'application/json',
-        'Authorization':'Bearer $value'
-      }).then((response){
-        print('Response status: ${response.statusCode}');
-        print('Response body: ${response.body}');
-    });
-  }
-  //function getData
-  Future<List> getData() async{
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key) ?? 0;
-
-    String myUrl = "$serverUrlHelpline";
-    http.Response response = await http.get(myUrl,
-      headers: {
-        'Accept':'application/json',
-        'Authorization':'Bearer $value'
-      }
-    );
-    return json.decode(response.body);
-  }
-  //--currentUser
-  Future<List> getDataCurrentUser() async{
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key) ?? 0;
-
-    String myUrl = "$serverUrlCurrentUser";
-    http.Response response = await http.get(myUrl,
-        headers: {
-          'Accept':'application/json',
-          'Authorization':'Bearer $value'
-        }
-    );
-    return json.decode(response.body);
-  }
-  //--animal
-  //function for registering rescue animals
-  void addDataAnimal(
-      String _animalNameController,
-      String _imageController,
-      String _categoryController,
-      String _yearController,
-      String _genderController,
-      String _addressController,
-      String _phoneController,
-      String _postedByController,
-      String _descriptionController,
-      userID
-      ) async {
+    //
     /*final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;*/
     //String myUrl = "$serverUrl/api";
-    String myUrl = "http://10.0.2.2:8000/api/rescue/";
-    final response = await http.post(myUrl,
+
+    /*final response = await http.post(myUrl,
         headers: {
           'Accept':'application/json'
         },
-        body: {
+        */ /*body: {
           "animalName":"$_animalNameController",
           "image":"$_imageController",
           "category":"$_categoryController",
@@ -194,8 +276,46 @@ void addDataHelpline(String _nameController, String _addressController, String _
           "postedBy":"$_postedByController",
           "description":"$_descriptionController",
           "user_id":"$userID"
-        }
-    );
+        }*/ /*
+    );*/
+
+    /* request.fields["name"] = _animalNameController;
+    request.fields["email"] = body['email'];
+    request.fields["phone1"] = body['phone1'];
+    request.fields["phone2"] = body['phone2'];
+    request.fields["location"] =body['location'];
+    request.fields["status"] = body['status'];
+    request.fields["lat"] = body['lat'];
+    request.fields["lon"] = body['lon'];
+    request.fields["district"] = body['district'];
+    request.fields["categories_id"] = body['categories_id'];
+    request.fields["details"] = body['details'];
+    request.fields["reference"]=body['reference'];*/
+
+    /*request.headers.addAll(headers);
+    //create multipart using filepath, string or bytes
+    //add multipart to request
+    request.files.add(auth_pic);
+
+
+    final streamedResponse = await request.send();
+
+    //Get the response from the server
+    final response = await http.Response.fromStream(streamedResponse);
+
+    if(response.body != null){
+      final int statusCode = response.statusCode;
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
+      }
+
+      else if(statusCode == 404) {
+        throw new Exception("Entity Not Found");
+      }
+      else{
+        return _decoder.convert(response.body);
+      }
+    }
     status = response.body.contains('error');
 
     var data = json.decode(response.body);
@@ -205,8 +325,9 @@ void addDataHelpline(String _nameController, String _addressController, String _
     }else{
       print('data : ${data["token"]}');
       _save(data["token"]);
-    }
+    }*/
   }
+
   //function for update animal
   void editDataAnimal(
       String id,
@@ -217,33 +338,30 @@ void addDataHelpline(String _nameController, String _addressController, String _
       String address,
       String phone,
       String postedBy,
-      String description
-      ) async {
+      String description) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
     String myUrl = "http://10.0.2.2:8000/api/rescue/$id";
-    http.put(myUrl,
-        headers: {
-          'Accept':'application/json',
-          'Authorization':'Bearer $value'
-        },
-        body: {
-          "animalName": "$animalName",
-          "category": "$category",
-          "year": "$year",
-          "gender": "$gender",
-          "address": "$address",
-          "phone": "$phone",
-          "postedBy": "$postedBy",
-          "description": "$description"
-        }
-    ).then((response){
+    http.put(myUrl, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $value'
+    }, body: {
+      "animalName": "$animalName",
+      "category": "$category",
+      "year": "$year",
+      "gender": "$gender",
+      "address": "$address",
+      "phone": "$phone",
+      "postedBy": "$postedBy",
+      "description": "$description"
+    }).then((response) {
       print('Response status : ${response.statusCode}');
       print('Response body: ${response.body}');
     });
   }
+
   //function for deleting rescue post
   void removeAnimal(String id) async {
     final prefs = await SharedPreferences.getInstance();
@@ -251,82 +369,79 @@ void addDataHelpline(String _nameController, String _addressController, String _
     final value = prefs.get(key) ?? 0;
 
     String myUrl = "http://10.0.2.2:8000/api/rescue/$id";
-    http.delete(myUrl,
-        headers: {
-          'Accept':'application/json',
-          'Authorization':'Bearer $value'
-        }).then((response){
+    http.delete(myUrl, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $value'
+    }).then((response) {
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
     });
   }
+
   //function getData
-  Future<List> getDataAnimal() async{
+  Future<List> getDataAnimal() async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
     String myUrl = "$serverUrlRescue";
-    http.Response response = await http.get(myUrl,
-        headers: {
-          'Accept':'application/json',
-          'Authorization':'Bearer $value'
-        }
-    );
+    http.Response response = await http.get(myUrl, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $value'
+    });
     return json.decode(response.body);
   }
+
   //--medical assistance--
   //function for adding self assistance
-  void addDataAssistance(String _queryController, String _descriptionController, String _urlController) async {
-    /*final prefs = await SharedPreferences.getInstance();
+  void addDataAssistance(String _queryController, String _descriptionController,
+      String _urlController) async {
+    final prefs = await SharedPreferences.getInstance();
     final key = 'token';
-    final value = prefs.get(key) ?? 0;*/
+    final value = prefs.get(key) ?? 0;
 
     //String myUrl = "$serverUrl/api";
     String myUrl = "http://10.0.2.2:8000/api/assistance/";
-    final response = await http.post(myUrl,
-        headers: {
-          'Accept':'application/json'
-        },
-        body: {
-          "query": "$_queryController",
-          "description": "$_descriptionController",
-          "url": "$_urlController"
-        }
-    );
+    final response = await http.post(myUrl, headers: {
+      'Accept': 'application/json'
+    }, body: {
+      "query": "$_queryController",
+      "description": "$_descriptionController",
+      "url": "$_urlController"
+    });
     status = response.body.contains('error');
 
     var data = json.decode(response.body);
 
-    if(status){
+    if (status) {
       print('data : ${data["error"]}');
-    }else{
+    } else {
       print('data : ${data["token"]}');
       _save(data["token"]);
     }
   }
+
   //function for update
-  void editDataAssistance(String id, String query, String description, String url) async {
+  void editDataAssistance(
+      String id, String query, String description, String url) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
     String myUrl = "http://10.0.2.2:8000/api/assistance/$id";
-    http.put(myUrl,
-        headers: {
-          'Accept':'application/json',
-          'Authorization':'Bearer $value'
-        },
-        body: {
-          "query": "$query",
-          "description": "$description",
-          "url": "$url",
-        }
-    ).then((response){
+    http.put(myUrl, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $value'
+    }, body: {
+      "query": "$query",
+      "description": "$description",
+      "url": "$url",
+    }).then((response) {
       print('Response status : ${response.statusCode}');
       print('Response body: ${response.body}');
     });
   }
+
   //function for delete
   void removeAssistance(String id) async {
     final prefs = await SharedPreferences.getInstance();
@@ -334,30 +449,26 @@ void addDataHelpline(String _nameController, String _addressController, String _
     final value = prefs.get(key) ?? 0;
 
     String myUrl = "http://10.0.2.2:8000/api/assistance/$id";
-    http.delete(myUrl,
-        headers: {
-          'Accept':'application/json',
-          'Authorization':'Bearer $value'
-        }).then((response){
+    http.delete(myUrl, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $value'
+    }).then((response) {
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
     });
   }
 
-
   //function getData
-  Future<List> getDataAssistance() async{
+  Future<List> getDataAssistance() async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
     String myUrl = "$serverUrlAssistance";
-    http.Response response = await http.get(myUrl,
-        headers: {
-          'Accept':'application/json',
-          'Authorization':'Bearer $value'
-        }
-    );
+    http.Response response = await http.get(myUrl, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $value'
+    });
     return json.decode(response.body);
   }
 
@@ -371,7 +482,7 @@ void addDataHelpline(String _nameController, String _addressController, String _
   }
 
   //function read
-  read() async{
+  read() async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;
@@ -404,9 +515,7 @@ void addDataHelpline(String _nameController, String _addressController, String _
     token = sharedPreferences.getString("token");
     print(token);
     var url = 'http://10.0.2.2:8000/api/rescue/$id';
-    http.Response response = await http.get(
-      url
-    );
+    http.Response response = await http.get(url);
     if (response.statusCode == 200) {
       Map<String, dynamic> map = json.decode(response.body);
       List<dynamic> userRescue = map["data"];
@@ -424,17 +533,14 @@ void addDataHelpline(String _nameController, String _addressController, String _
     final value = prefs.get(key) ?? 0;
 
     String myUrl = "http://10.0.2.2:8000/api/editCurrentUser";
-    http.put(myUrl,
-        headers: {
-          'Accept':'application/json',
-          'Authorization':'Bearer $value'
-        },
-        body: {
-          "name": "$name",
-          "email": "$address",
-          "phone": "$phone"
-        }
-    ).then((response){
+    http.put(myUrl, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $value'
+    }, body: {
+      "name": "$name",
+      "email": "$address",
+      "phone": "$phone"
+    }).then((response) {
       print('Response status : ${response.statusCode}');
       print('Response body: ${response.body}');
     });
@@ -450,7 +556,7 @@ void addDataHelpline(String _nameController, String _addressController, String _
     var jsonResponse = json.decode(response.body);
     if (response.statusCode == 200) {
       print('jsonResponse:${jsonResponse["token"]}');
-      *//*_save(jsonResponse["token"]);*//*
+      */ /*_save(jsonResponse["token"]);*/ /*
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
               (Route<dynamic> route) => false);
@@ -462,7 +568,4 @@ void addDataHelpline(String _nameController, String _addressController, String _
     }
   }*/
 
-
 }
-
-

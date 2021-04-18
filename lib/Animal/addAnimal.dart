@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -6,9 +7,9 @@ import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
 import 'package:kat_centre/controller/databaseHelper.dart';
 
 String dropDownValue;
-class AddAnimal extends StatefulWidget {
 
-  AddAnimal({Key key, this.title, this.userId}) : super(key : key);
+class AddAnimal extends StatefulWidget {
+  AddAnimal({Key key, this.title, this.userId}) : super(key: key);
   final String title;
   final userId;
 
@@ -17,32 +18,34 @@ class AddAnimal extends StatefulWidget {
 }
 
 class _AddAnimalState extends State<AddAnimal> {
-
-  void addAnimals (){
+  void addAnimals() {
     AlertDialog alertDialog = new AlertDialog(
       content: new Text("Are you sure, You want add animal?"),
       actions: <Widget>[
         new RaisedButton(
-          child: new Text("Yes",
-            style: new TextStyle(color: Colors.white),),
+          child: new Text(
+            "Yes",
+            style: new TextStyle(color: Colors.white),
+          ),
           color: Colors.green[500],
           shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(50.0)
-          ),
-          onPressed: (){
-            Navigator.of(context).push(
-                new MaterialPageRoute(builder: (BuildContext context) => new BottomNavigationPage(),)
-            );
+              borderRadius: new BorderRadius.circular(50.0)),
+          onPressed: () {
+            Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => new BottomNavigationPage(),
+            ));
           },
         ),
         new RaisedButton(
-          child: new Text('Cancel',
-            style: TextStyle(color: Colors.white),),
+          child: new Text(
+            'Cancel',
+            style: TextStyle(color: Colors.white),
+          ),
           color: Colors.red[900],
           shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(50.0)
-          ),
-          onPressed: ()=> Navigator.pop(context),),
+              borderRadius: new BorderRadius.circular(50.0)),
+          onPressed: () => Navigator.pop(context),
+        ),
       ],
     );
 
@@ -50,32 +53,42 @@ class _AddAnimalState extends State<AddAnimal> {
   }
 
   File _image;
+  Uint8List _newImage;
   final picker = ImagePicker();
 
-  Future choiceImage()async{
+  Future choiceImage() async {
     var pickedImage = await picker.getImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      _newImage = await pickedImage.readAsBytes();
+    }
+
     setState(() {
       _image = File(pickedImage.path);
+      print("picked path: $_image");
     });
   }
 
-  Future uploadImage()async{
-    final uri = Uri.parse("http://10.0.2.2:8000/storage/app/public/rescue/April2021");
+/*
+  Future uploadImage() async {
+    final uri = Uri.parse("http://10.0.2.2:8000/api/rescue");
     var request = http.MultipartRequest('POST', uri);
     var pic = await http.MultipartFile.fromPath("image", _image.path);
     request.files.add(pic);
     var response = await request.send();
 
-    if (response.statusCode == 200){
+    if (response.statusCode == 200) {
       print('Image Uploaded');
-    }else{
+    } else {
       print('Image Not Uploaded');
     }
   }
+*/
 
   DatabaseHelper dataBaseHelper = new DatabaseHelper();
 
-  final TextEditingController _animalNameController = new TextEditingController();
+  final TextEditingController _animalNameController =
+      new TextEditingController();
   final TextEditingController _imageController = new TextEditingController();
   final TextEditingController _categoryController = new TextEditingController();
   final TextEditingController _yearController = new TextEditingController();
@@ -83,7 +96,12 @@ class _AddAnimalState extends State<AddAnimal> {
   final TextEditingController _addressController = new TextEditingController();
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _postedByController = new TextEditingController();
-  final TextEditingController _descriptionController = new TextEditingController();
+  final TextEditingController _descriptionController =
+      new TextEditingController();
+
+/*
+  final _formKey = GlobalKey<FormState>();
+*/
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +114,7 @@ class _AddAnimalState extends State<AddAnimal> {
           backgroundColor: Colors.blue[900],
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: (){
+            onPressed: () {
               Navigator.of(context).pushReplacement(new MaterialPageRoute(
                   builder: (BuildContext context) => BottomNavigationPage()));
             },
@@ -104,7 +122,8 @@ class _AddAnimalState extends State<AddAnimal> {
         ),
         body: Container(
           child: ListView(
-            padding: const EdgeInsets.only(top: 30, left: 12.0, right: 12.0, bottom: 12.0),
+            padding: const EdgeInsets.only(
+                top: 30, left: 12.0, right: 12.0, bottom: 12.0),
             children: <Widget>[
               Container(
                 height: 50,
@@ -116,26 +135,37 @@ class _AddAnimalState extends State<AddAnimal> {
                       decoration: InputDecoration(
                         labelText: 'Animal Name',
                         contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                        hintText: 'eg: Rambo, Bruno (can give random suitable name)',
+                        hintText:
+                            'eg: Rambo, Bruno (can give random suitable name)',
                         icon: new Icon(Icons.pets),
                       ),
+                      /*validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },*/
                     ),
                   ],
                 ),
               ),
-              new Padding(padding: new EdgeInsets.only(top: 44.0),),
+              new Padding(
+                padding: new EdgeInsets.only(top: 44.0),
+              ),
               Container(
                 height: 350,
                 child: Column(
                   children: [
                     IconButton(
                       icon: Icon(Icons.camera),
-                      onPressed: (){
+                      onPressed: () {
                         choiceImage();
                       },
                     ),
                     Container(
-                      child: _image == null ? Text('No Image Selected') : Image.file(_image),
+                      child: _image == null
+                          ? Text('No Image Selected')
+                          : Image.file(_image),
                     ),
                     /*new TextField(
                       controller: _imageController,
@@ -150,7 +180,9 @@ class _AddAnimalState extends State<AddAnimal> {
                   ],
                 ),
               ),
-              new Padding(padding: new EdgeInsets.only(top: 44.0),),
+              new Padding(
+                padding: new EdgeInsets.only(top: 44.0),
+              ),
               Container(
                 height: 50,
                 child: Column(
@@ -168,7 +200,9 @@ class _AddAnimalState extends State<AddAnimal> {
                   ],
                 ),
               ),
-              new Padding(padding: new EdgeInsets.only(top: 44.0),),
+              new Padding(
+                padding: new EdgeInsets.only(top: 44.0),
+              ),
               Container(
                 height: 50,
                 child: Column(
@@ -186,23 +220,28 @@ class _AddAnimalState extends State<AddAnimal> {
                   ],
                 ),
               ),
-              new Padding(padding: new EdgeInsets.only(top: 44.0),),
+              new Padding(
+                padding: new EdgeInsets.only(top: 44.0),
+              ),
               Container(
                 height: 50,
                 child: DropdownButton(
                     isExpanded: true,
                     hint: Text('Select gender'),
                     value: dropDownValue,
-                    items: gender.map((gender){
-                      return DropdownMenuItem(child: new Text(gender),value: gender);
+                    items: gender.map((gender) {
+                      return DropdownMenuItem(
+                          child: new Text(gender), value: gender);
                     }).toList(),
-                    onChanged: (String newValue){
+                    onChanged: (String newValue) {
                       setState(() {
                         dropDownValue = newValue;
                       });
                     }),
               ),
-              new Padding(padding: new EdgeInsets.only(top: 44.0),),
+              new Padding(
+                padding: new EdgeInsets.only(top: 44.0),
+              ),
               Container(
                 height: 50,
                 child: new TextField(
@@ -216,7 +255,9 @@ class _AddAnimalState extends State<AddAnimal> {
                   ),
                 ),
               ),
-              new Padding(padding: new EdgeInsets.only(top: 44.0),),
+              new Padding(
+                padding: new EdgeInsets.only(top: 44.0),
+              ),
               Container(
                 height: 50,
                 child: new TextField(
@@ -230,7 +271,9 @@ class _AddAnimalState extends State<AddAnimal> {
                   ),
                 ),
               ),
-              new Padding(padding: new EdgeInsets.only(top: 44.0),),
+              new Padding(
+                padding: new EdgeInsets.only(top: 44.0),
+              ),
               Container(
                 height: 50,
                 child: new TextField(
@@ -244,7 +287,9 @@ class _AddAnimalState extends State<AddAnimal> {
                   ),
                 ),
               ),
-              new Padding(padding: new EdgeInsets.only(top: 44.0),),
+              new Padding(
+                padding: new EdgeInsets.only(top: 44.0),
+              ),
               Container(
                 height: 50,
                 child: new TextField(
@@ -258,15 +303,16 @@ class _AddAnimalState extends State<AddAnimal> {
                   ),
                 ),
               ),
-              new Padding(padding: new EdgeInsets.only(top: 44.0),),
+              new Padding(
+                padding: new EdgeInsets.only(top: 44.0),
+              ),
               Container(
                 height: 50,
                 child: new RaisedButton(
-                  onPressed: (){
+                  onPressed: () async {
                     dataBaseHelper.addDataAnimal(
                         _animalNameController.text.trim(),
-                      // uploadImage,
-                        _imageController.text.trim(),
+                        _image,
                         _categoryController.text.trim(),
                         _yearController.text.trim(),
                         dropDownValue,
@@ -275,12 +321,18 @@ class _AddAnimalState extends State<AddAnimal> {
                         _phoneController.text.trim(),
                         _postedByController.text.trim(),
                         _descriptionController.text.trim(),
-                    widget.userId);
-                  //  uploadImage();
+                        widget.userId);
+
+                    //  uploadImage();
+                    /*if (_formKey.currentState.validate()) {
+                      Scaffold.of(context)
+                          .showSnackBar(SnackBar(content: Text('Processing Data')));
+                    }*/
 
                     Navigator.of(context).push(
                       new MaterialPageRoute(
-                        builder: (BuildContext context) => new BottomNavigationPage(),
+                        builder: (BuildContext context) =>
+                            new BottomNavigationPage(),
                       ),
                     );
                   },
@@ -302,7 +354,4 @@ class _AddAnimalState extends State<AddAnimal> {
   }
 }
 
-List<String> gender = [
-  'Male',
-  'Female'
-];
+List<String> gender = ['Male', 'Female'];
