@@ -109,11 +109,17 @@ class _AddAnimalState extends State<AddAnimal> {
       debugShowCheckedModeBanner: false,
       title: 'Add Rescue Animal',
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Add Rescue Animal'),
-          backgroundColor: Colors.blue[900],
+        appBar: new AppBar(
+          title: new Text(
+            "Add Rescue Animal",
+            style:
+                TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.white70,
+          shadowColor: Colors.blue[900],
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
+            color: Colors.blue[900],
             onPressed: () {
               Navigator.of(context).pushReplacement(new MaterialPageRoute(
                   builder: (BuildContext context) => BottomNavigationPage()));
@@ -152,32 +158,39 @@ class _AddAnimalState extends State<AddAnimal> {
               new Padding(
                 padding: new EdgeInsets.only(top: 44.0),
               ),
+              Center(
+                  child: Text(
+                'Click on the shutter icon to add animal',
+                style: TextStyle(color: Colors.blueGrey),
+              )),
               Container(
-                height: 350,
-                child: Column(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.camera),
-                      onPressed: () {
-                        choiceImage();
-                      },
-                    ),
-                    Container(
-                      child: _image == null
-                          ? Text('No Image Selected')
-                          : Image.file(_image),
-                    ),
-                    /*new TextField(
-                      controller: _imageController,
-                      keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
-                        labelText: 'Image',
-                        contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                        hintText: 'enter image url',
-                        icon: new Icon(Icons.category),
+                height: 80,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.camera),
+                        onPressed: () {
+                          choiceImage();
+                        },
                       ),
-                    ),*/
-                  ],
+                      Container(
+                        child: _image == null
+                            ? Text('No Image Selected')
+                            : Image.file(_image),
+                      ),
+                      /*new TextField(
+                        controller: _imageController,
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                          labelText: 'Image',
+                          contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                          hintText: 'enter image url',
+                          icon: new Icon(Icons.category),
+                        ),
+                      ),*/
+                    ],
+                  ),
                 ),
               ),
               new Padding(
@@ -344,6 +357,8 @@ class _AddAnimalState extends State<AddAnimal> {
                       backgroundColor: Colors.blue[900],
                     ),
                   ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0)),
                 ),
               ),
             ],

@@ -1,12 +1,6 @@
-class Constants{
-  static const String Feedback = 'Feedback';
-  static const String Help = 'Help';
+class Constants {
+  static const String Ref = 'Refresh';
   static const String Dev = 'Developers Contact';
 
-  static const List<String> choices = <String>[
-    Feedback,
-    Help,
-    Dev
-  ];
+  static const List<String> choices = <String>[Ref, Dev];
 }
-

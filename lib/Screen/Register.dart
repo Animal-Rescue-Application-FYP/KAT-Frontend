@@ -12,37 +12,97 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   bool _isLoading = false;
+  //
+  void registerPass() {
+    AlertDialog alertDialog = new AlertDialog(
+      content: new Text("Account Registered Successfully!"),
+      actions: <Widget>[
+        new RaisedButton(
+          child: new Text(
+            "OK",
+            style: new TextStyle(color: Colors.white),
+          ),
+          color: Colors.green[500],
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(50.0)),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (BuildContext context) => LoginPage()),
+                (Route<dynamic> route) => false);
+          },
+        ),
+      ],
+    );
+
+    showDialog(context: context, child: alertDialog);
+  }
+
+  //
+  void registerFail() {
+    AlertDialog alertDialog = new AlertDialog(
+      content: new Text("Please enter the correct registration details"),
+      actions: <Widget>[
+        new RaisedButton(
+          child: new Text(
+            "OK",
+            style: new TextStyle(color: Colors.white),
+          ),
+          color: Colors.green[500],
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(50.0)),
+          onPressed: () {
+            setState(() {
+              _isLoading = false;
+            });
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (BuildContext context) => Register()),
+                (Route<dynamic> route) => false);
+          },
+        ),
+      ],
+    );
+
+    showDialog(context: context, child: alertDialog);
+  }
+
+//
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
+        .copyWith(statusBarColor: Colors.transparent));
     return Scaffold(
       appBar: AppBar(
         title: Text('Register Page'),
         backgroundColor: Colors.blue[900],
       ),
       body: Container(
-        child: _isLoading ? Center(child: CircularProgressIndicator()) : ListView(
-          children: <Widget>[
-            headerSection(),
-            textSection(),
-            buttonSection(),
-          ],
-        ),
+        child: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            : ListView(
+                children: <Widget>[
+                  headerSection(),
+                  textSection(),
+                  buttonSection(),
+                ],
+              ),
       ),
     );
   }
+
   register(String name, email, phone, password) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map data = {
       'name': name,
       'email': email,
-      'phone':phone,
+      'phone': phone,
       'password': password,
     };
     var jsonResponse;
 
     var response =
-    await http.post("http://10.0.2.2:8000/api/register", body: data);
+        await http.post("http://192.168.1.184:8000/api/register", body: data);
 
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
@@ -55,75 +115,92 @@ class _RegisterState extends State<Register> {
         print(response.body);
         sharedPreferences.setString("token", jsonResponse['token']);
       }
-      Navigator.of(context).push(
-        new MaterialPageRoute(builder: (BuildContext context) =>
-        new LoginPage(),),);
+      /*Navigator.of(context).push(
+        new MaterialPageRoute(
+          builder: (BuildContext context) => new LoginPage(),
+        ),
+      );*/
+      registerPass();
     } else {
-      setState(() {
+      registerFail();
+      /*setState(() {
         _isLoading = false;
       });
-      print(response.body);
+      print(response.body);*/
     }
   }
+
   Container buttonSection() {
     return Container(
-      child: Column(
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 40.0,
-              padding: EdgeInsets.symmetric(horizontal: 15.0),
-              margin: EdgeInsets.only(top: 15.0),
-              child: RaisedButton(
-                onPressed: registerNameController.text == "" || registerEmailController.text == "" || registerPhoneController.text == "" || registerPasswordController.text == "" || confirmPasswordController.text == "" ? null : () {
-                  setState(() {
-                    _isLoading = true;
-                    Text('Please wait');
-                    //createSnackBar('New user is registered successfully', Colors.green, context);
-                  });
-                  register(registerNameController.text, registerEmailController.text, registerPhoneController.text, registerPasswordController.text);
-                },
-                elevation: 0.0,
-                color: Colors.blue[900],
-                child: Text("Register", style: TextStyle(color: Colors.white70)),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-              ),
-            ),
-            Container(
-              //making an alignment in x and y axis to place text in right side
-              padding: EdgeInsets.only(top: 15.0, left: 20.0),
-              child: InkWell( //gives tapping effect
-                child: FlatButton(
-                  child: Text('Already have an account?',
-                    style: TextStyle(
-                      color: Colors.blue[900],
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => LoginPage()),
-                    );
+      child: Column(children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: 40.0,
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          margin: EdgeInsets.only(top: 15.0),
+          child: RaisedButton(
+            onPressed: registerNameController.text == "" ||
+                    registerEmailController.text == "" ||
+                    registerPhoneController.text == "" ||
+                    registerPasswordController.text == "" ||
+                    confirmPasswordController.text == ""
+                ? null
+                : () {
+                    setState(() {
+                      _isLoading = true;
+                      Text('Please wait');
+                      //createSnackBar('New user is registered successfully', Colors.green, context);
+                    });
+                    register(
+                        registerNameController.text,
+                        registerEmailController.text,
+                        registerPhoneController.text,
+                        registerPasswordController.text);
                   },
+            elevation: 0.0,
+            color: Colors.blue[900],
+            child: Text("Register", style: TextStyle(color: Colors.white70)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
+          ),
+        ),
+        Container(
+          //making an alignment in x and y axis to place text in right side
+          padding: EdgeInsets.only(top: 15.0, left: 20.0),
+          child: InkWell(
+            //gives tapping effect
+            child: FlatButton(
+              child: Text(
+                'Already have an account?',
+                style: TextStyle(
+                  color: Colors.blue[900],
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
                 ),
               ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
             ),
-          ]
-      ),
+          ),
+        ),
+      ]),
     );
   }
 
   final TextEditingController registerNameController =
-  new TextEditingController();
+      new TextEditingController();
   final TextEditingController registerEmailController =
-  new TextEditingController();
+      new TextEditingController();
   final TextEditingController registerPhoneController =
-  new TextEditingController();
+      new TextEditingController();
   final TextEditingController registerPasswordController =
-  new TextEditingController();
+      new TextEditingController();
   final TextEditingController confirmPasswordController =
-  new TextEditingController();
+      new TextEditingController();
 
   Container textSection() {
     return Container(
@@ -133,12 +210,12 @@ class _RegisterState extends State<Register> {
           TextFormField(
             controller: registerNameController,
             cursorColor: Colors.black87,
-
             style: TextStyle(color: Colors.black87),
             decoration: InputDecoration(
               icon: Icon(Icons.person, color: Colors.blue[900]),
               hintText: "Full Name",
-              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.black87),
             ),
           ),
@@ -146,12 +223,12 @@ class _RegisterState extends State<Register> {
           TextFormField(
             controller: registerEmailController,
             cursorColor: Colors.black87,
-
             style: TextStyle(color: Colors.black87),
             decoration: InputDecoration(
               icon: Icon(Icons.email, color: Colors.blue[900]),
               hintText: "Email Address",
-              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.black87),
             ),
           ),
@@ -159,12 +236,12 @@ class _RegisterState extends State<Register> {
           TextFormField(
             controller: registerPhoneController,
             cursorColor: Colors.black87,
-
             style: TextStyle(color: Colors.black87),
             decoration: InputDecoration(
               icon: Icon(Icons.call, color: Colors.blue[900]),
               hintText: "Phone Number",
-              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.black87),
             ),
           ),
@@ -177,7 +254,8 @@ class _RegisterState extends State<Register> {
             decoration: InputDecoration(
               icon: Icon(Icons.lock, color: Colors.blue[900]),
               hintText: "Password",
-              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.black87),
             ),
           ),
@@ -189,7 +267,8 @@ class _RegisterState extends State<Register> {
             decoration: InputDecoration(
               icon: Icon(Icons.lock_clock, color: Colors.blue[900]),
               hintText: "Confirm Password",
-              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.black87),
             ),
           ),

@@ -50,7 +50,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_hospital_outlined),
-            label: 'Medical Assistance',
+            label: 'Assistance',
           ),
         ],
         currentIndex: _selectedIndex,

@@ -1,17 +1,14 @@
-import 'dart:typed_data';
-
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
 class DatabaseHelper {
-  String serverUrl = "http://10.0.2.2:8000/api/";
-  String serverUrlHelpline = "http://10.0.2.2:8000/api/helpline/";
-  String serverUrlCurrentUser = "http://10.0.2.2:8000/api/currentUser/";
-  String serverUrlRescue = "http://10.0.2.2:8000/api/rescue/";
-  String serverUrlAssistance = "http://10.0.2.2:8000/api/assistance/";
+  String serverUrl = "http://192.168.1.184:8000/api/";
+  String serverUrlHelpline = "http://192.168.1.184:8000/api/helpline/";
+  String serverUrlCurrentUser = "http://192.168.1.184:8000/api/currentUser/";
+  String serverUrlRescue = "http://192.168.1.184:8000/api/rescue/";
+  String serverUrlAssistance = "http://192.168.1.184:8000/api/assistance/";
 
   var status;
   var token;
@@ -67,7 +64,7 @@ class DatabaseHelper {
   final value = prefs.get(key) ?? 0;*/
 
     //String myUrl = "$serverUrl/api";
-    String myUrl = "http://10.0.2.2:8000/api/helpline/";
+    String myUrl = "http://192.168.1.184:8000/api/helpline/";
     final response = await http.post(myUrl, headers: {
       'Accept': 'application/json'
     }, body: {
@@ -93,7 +90,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://10.0.2.2:8000/api/helpline/$id";
+    String myUrl = "http://192.168.1.184:8000/api/helpline/$id";
     http.put(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -113,7 +110,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://10.0.2.2:8000/api/helpline/$id";
+    String myUrl = "http://192.168.1.184:8000/api/helpline/$id";
     http.delete(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -168,7 +165,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://10.0.2.2:8000/api/rescue/";
+    String myUrl = "http://192.168.1.184:8000/api/rescue/";
 
     Map<String, String> headers = {
       "Authorization": "Bearer $value",
@@ -343,7 +340,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://10.0.2.2:8000/api/rescue/$id";
+    String myUrl = "http://192.168.1.184:8000/api/rescue/$id";
     http.put(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -368,7 +365,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://10.0.2.2:8000/api/rescue/$id";
+    String myUrl = "http://192.168.1.184:8000/api/rescue/$id";
     http.delete(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -401,7 +398,7 @@ class DatabaseHelper {
     final value = prefs.get(key) ?? 0;
 
     //String myUrl = "$serverUrl/api";
-    String myUrl = "http://10.0.2.2:8000/api/assistance/";
+    String myUrl = "http://192.168.1.184:8000/api/assistance/";
     final response = await http.post(myUrl, headers: {
       'Accept': 'application/json'
     }, body: {
@@ -428,7 +425,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://10.0.2.2:8000/api/assistance/$id";
+    String myUrl = "http://192.168.1.184:8000/api/assistance/$id";
     http.put(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -448,7 +445,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://10.0.2.2:8000/api/assistance/$id";
+    String myUrl = "http://192.168.1.184:8000/api/assistance/$id";
     http.delete(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -495,7 +492,7 @@ class DatabaseHelper {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     token = sharedPreferences.getString("token");
     print(token);
-    var url = 'http://10.0.2.2:8000/api/currentUser';
+    var url = 'http://192.168.1.184:8000/api/currentUser';
     http.Response response = await http.get(
       url,
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
@@ -514,7 +511,7 @@ class DatabaseHelper {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     token = sharedPreferences.getString("token");
     print(token);
-    var url = 'http://10.0.2.2:8000/api/rescue/$id';
+    var url = 'http://192.168.1.184:8000/api/rescue/$id';
     http.Response response = await http.get(url);
     if (response.statusCode == 200) {
       Map<String, dynamic> map = json.decode(response.body);
@@ -532,7 +529,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://10.0.2.2:8000/api/editCurrentUser";
+    String myUrl = "http://192.168.1.184:8000/api/editCurrentUser";
     http.put(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'

@@ -11,18 +11,17 @@ class ListHelpline extends StatefulWidget {
 }
 
 class _ListHelplineState extends State<ListHelpline> {
-
   List data;
 
-  Future<List> getData()async {
-    final response = await http.get("http://10.0.2.2:8000/api/helpline/");
+  Future<List> getData() async {
+    final response = await http.get("http://192.168.1.184:8000/api/helpline/");
     return json.decode(response.body);
   }
 
   @override
-  void  initState() {
+  void initState() {
     super.initState();
-      this.getData();
+    this.getData();
   }
 
   @override
@@ -30,15 +29,17 @@ class _ListHelplineState extends State<ListHelpline> {
     return new Scaffold(
       backgroundColor: Colors.blueGrey,
       appBar: new AppBar(
-        title: new Text("Helpline Numbers", style: TextStyle(
-            color: Colors.blue[900], fontWeight: FontWeight.bold
-        ),),
+        title: new Text(
+          "Helpline Numbers",
+          style:
+              TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.white70,
         shadowColor: Colors.blue[900],
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           color: Colors.blue[900],
-          onPressed: (){
+          onPressed: () {
             Navigator.of(context).pushReplacement(new MaterialPageRoute(
                 builder: (BuildContext context) => BottomNavigationPage()));
           },
@@ -50,11 +51,9 @@ class _ListHelplineState extends State<ListHelpline> {
           if (snapshot.hasError) print(snapshot.error);
           return snapshot.hasData
               ? new ItemList(
-                list: snapshot.data,
-          )
-          : new Center(
-            child: new CircularProgressIndicator()
-          );
+                  list: snapshot.data,
+                )
+              : new Center(child: new CircularProgressIndicator());
         },
       ),
     );
