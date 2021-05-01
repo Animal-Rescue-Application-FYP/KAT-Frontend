@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kat_centre/Animal/animalDescription.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class AnimalList extends StatelessWidget {
   final String phone;
@@ -44,7 +43,7 @@ class AnimalList extends StatelessWidget {
                     ),*/
                     Container(
                       child: Image.network(
-                          'http://192.168.1.184:8000/storage/${list[i]['image']}'),
+                          'http://192.168.0.107:8000/storage/${list[i]['image']}'),
                     ),
                     Row(
                       children: [

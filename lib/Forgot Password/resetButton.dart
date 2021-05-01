@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:kat_centre/Screen/Login.dart';
 
 class ResetPasswordButton extends StatefulWidget {
@@ -73,7 +72,7 @@ class _ResetPasswordButtonState extends State<ResetPasswordButton> {
 
     var jsonResponse;
     var response = await http.post(
-        Uri.parse("http://192.168.1.184:8000/api/password/reset"),
+        Uri.parse("http://192.168.0.107:8000/api/password/reset"),
         body: data);
     print('reached here');
     if (response.statusCode == 200) {

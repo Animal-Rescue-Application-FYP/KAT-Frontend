@@ -13,8 +13,6 @@ class BottomNavigationPage extends StatefulWidget {
 
 class _BottomNavigationPageState extends State<BottomNavigationPage> {
   int _selectedIndex = 0;
-/*  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);*/
   static List<Widget> _widgetOptions = <Widget>[
     ListAnimal(),
     NearbyLocation(),

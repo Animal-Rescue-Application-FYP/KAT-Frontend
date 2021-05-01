@@ -14,7 +14,7 @@ class _ListHelplineState extends State<ListHelpline> {
   List data;
 
   Future<List> getData() async {
-    final response = await http.get("http://192.168.1.184:8000/api/helpline/");
+    final response = await http.get("http://192.168.0.107:8000/api/helpline/");
     return json.decode(response.body);
   }
 

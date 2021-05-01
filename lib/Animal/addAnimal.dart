@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kat_centre/BottomNavigationBar/bottomNavigationBar.dart';
@@ -69,22 +68,6 @@ class _AddAnimalState extends State<AddAnimal> {
     });
   }
 
-/*
-  Future uploadImage() async {
-    final uri = Uri.parse("http://10.0.2.2:8000/api/rescue");
-    var request = http.MultipartRequest('POST', uri);
-    var pic = await http.MultipartFile.fromPath("image", _image.path);
-    request.files.add(pic);
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      print('Image Uploaded');
-    } else {
-      print('Image Not Uploaded');
-    }
-  }
-*/
-
   DatabaseHelper dataBaseHelper = new DatabaseHelper();
 
   final TextEditingController _animalNameController =
@@ -98,10 +81,6 @@ class _AddAnimalState extends State<AddAnimal> {
   final TextEditingController _postedByController = new TextEditingController();
   final TextEditingController _descriptionController =
       new TextEditingController();
-
-/*
-  final _formKey = GlobalKey<FormState>();
-*/
 
   @override
   Widget build(BuildContext context) {

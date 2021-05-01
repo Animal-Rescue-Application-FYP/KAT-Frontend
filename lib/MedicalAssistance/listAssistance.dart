@@ -13,7 +13,7 @@ class ListAssistance extends StatefulWidget {
 class _ListAssistanceState extends State<ListAssistance> {
   Future<List> getData() async {
     final response =
-        await http.get("http://192.168.1.184:8000/api/assistance/");
+        await http.get("http://192.168.0.107:8000/api/assistance/");
     return json.decode(response.body);
   }
 

@@ -22,7 +22,6 @@ class Reset extends StatefulWidget {
 
 class _ResetState extends State<Reset> {
   bool _showPassword = false;
-  //static const String id='screens.ForgotPassword';
   final _formKey = GlobalKey<FormState>();
   final TextEditingController tokenController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
@@ -165,8 +164,6 @@ class _ResetState extends State<Reset> {
                       ),
                     ],
                   ),
-
-                  //buttonText: 'Back'
                 ],
               ),
             ),

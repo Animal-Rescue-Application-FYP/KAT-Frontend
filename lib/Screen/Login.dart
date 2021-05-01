@@ -16,33 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   bool _showPassword = false;
 
-  //
-/*  void loggedIn() {
-    AlertDialog alertDialog = new AlertDialog(
-      content: new Text("Successfully Logged In!"),
-      actions: <Widget>[
-        new RaisedButton(
-          child: new Text(
-            "OK",
-            style: new TextStyle(color: Colors.white),
-          ),
-          color: Colors.green[500],
-          shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(50.0)),
-          onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                    builder: (BuildContext context) => BottomNavigationPage()),
-                (Route<dynamic> route) => false);
-          },
-        ),
-      ],
-    );
-
-    showDialog(context: context, child: alertDialog);
-  }*/
-
-  //
+  //method to generate error message when login credentials is entered wrong
   void loggedInFail() {
     AlertDialog alertDialog = new AlertDialog(
       content: new Text("Please enter the correct login credentials"),
@@ -99,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
     var jsonResponse;
 
     var response =
-        await http.post("http://192.168.1.184:8000/api/login", body: data);
+        await http.post("http://192.168.0.107:8000/api/login", body: data);
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       print('Response status: ${response.statusCode}');
@@ -132,6 +106,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  //function to log into  the system
   Container buttonSection() {
     return Container(
       child: Column(children: <Widget>[
@@ -142,6 +117,7 @@ class _LoginPageState extends State<LoginPage> {
           margin: EdgeInsets.only(top: 15.0),
           child: RaisedButton(
             onPressed:
+                //validating the email and password text form fields
                 emailController.text == "" || passwordController.text == ""
                     ? null
                     : () {
@@ -238,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
           TextFormField(
             controller: passwordController,
             cursorColor: Colors.black87,
-            obscureText: !_showPassword,
+            obscureText: _showPassword,
             style: TextStyle(color: Colors.black87),
             decoration: InputDecoration(
               icon: Icon(Icons.lock, color: Colors.blue[900]),

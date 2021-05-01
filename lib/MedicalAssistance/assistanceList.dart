@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'detailAssistance.dart';
 
 class AssistanceList extends StatelessWidget {
   final String url;
 
   final List list;
-  AssistanceList({this.list,this.url});
+  AssistanceList({this.list, this.url});
 
-  void customLaunch(command) async{
-    if(await canLaunch(command)){
+  void customLaunch(command) async {
+    if (await canLaunch(command)) {
       await launch(command);
-    }else{
+    } else {
       print('could not launch $command');
     }
   }
@@ -36,16 +34,17 @@ class AssistanceList extends StatelessWidget {
                   SingleChildScrollView(
                     child: Row(
                       children: [
-                        Icon(
-                            Icons.help
-                        ),
+                        Icon(Icons.help),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                         ),
                         Expanded(
                           child: new Text(
                             list[i]['query'].toString(),
-                            style: TextStyle(fontSize: 20.0, color: Colors.blueGrey[900], fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.blueGrey[900],
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
@@ -66,7 +65,8 @@ class AssistanceList extends StatelessWidget {
                         Expanded(
                           child: new Text(
                             list[i]['description'].toString(),
-                            style: TextStyle(fontSize: 18.0, color: Colors.black87),
+                            style: TextStyle(
+                                fontSize: 18.0, color: Colors.black87),
                             textAlign: TextAlign.justify,
                           ),
                         ),
@@ -74,13 +74,13 @@ class AssistanceList extends StatelessWidget {
                     ),
                   ),
                   FlatButton(
-                    onPressed: (){
-                      customLaunch('${list[i]['url'].toString()}');
-                    },
+                      onPressed: () {
+                        customLaunch('${list[i]['url'].toString()}');
+                      },
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(100,0,0,0),
+                            padding: const EdgeInsets.fromLTRB(100, 0, 0, 0),
                             child: Text(
                               'View More',
                               style: TextStyle(
@@ -96,12 +96,11 @@ class AssistanceList extends StatelessWidget {
                           ),
                           Icon(
                             Icons.double_arrow_sharp,
-                            size:   16,
+                            size: 16,
                             color: Colors.blue[900],
                           ),
                         ],
-                      )
-                  ),
+                      )),
                 ],
               ),
             ),
@@ -110,6 +109,4 @@ class AssistanceList extends StatelessWidget {
       },
     );
   }
-
 }
-

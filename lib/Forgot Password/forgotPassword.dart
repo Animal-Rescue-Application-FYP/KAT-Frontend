@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kat_centre/Forgot Password/forgotButton.dart';
-import 'package:http/http.dart' as http;
-import 'package:kat_centre/Controller/databaseHelper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ForgotPassword extends StatefulWidget {
-  //const ForgotPassword({Key? key}) : super(key: key);
-  // static const String id='screens.ForgotPassword';
-
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
 }
 
 /// This is the private State class that goes with ForgotPassword
 class _ForgotPasswordState extends State<ForgotPassword> {
-  //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  //bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = new TextEditingController();
 
@@ -38,9 +29,6 @@ class Forgot extends StatefulWidget {
 }
 
 class _ForgotState extends State<Forgot> {
-  //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  //bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = new TextEditingController();
   @override

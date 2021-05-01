@@ -4,11 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
 class DatabaseHelper {
-  String serverUrl = "http://192.168.1.184:8000/api/";
-  String serverUrlHelpline = "http://192.168.1.184:8000/api/helpline/";
-  String serverUrlCurrentUser = "http://192.168.1.184:8000/api/currentUser/";
-  String serverUrlRescue = "http://192.168.1.184:8000/api/rescue/";
-  String serverUrlAssistance = "http://192.168.1.184:8000/api/assistance/";
+  String serverUrl = "http://192.168.0.107:8000/api/";
+  String serverUrlHelpline = "http://192.168.0.107:8000/api/helpline/";
+  String serverUrlCurrentUser = "http://192.168.0.107:8000/api/currentUser/";
+  String serverUrlRescue = "http://192.168.0.107:8000/api/rescue/";
+  String serverUrlAssistance = "http://192.168.0.107:8000/api/assistance/";
 
   var status;
   var token;
@@ -59,12 +59,7 @@ class DatabaseHelper {
   //function for registering helpline numbers
   void addDataHelpline(String _nameController, String _addressController,
       String _phoneController) async {
-/*  final prefs = await SharedPreferences.getInstance();
-  final key = 'token';
-  final value = prefs.get(key) ?? 0;*/
-
-    //String myUrl = "$serverUrl/api";
-    String myUrl = "http://192.168.1.184:8000/api/helpline/";
+    String myUrl = "http://192.168.0.107:8000/api/helpline/";
     final response = await http.post(myUrl, headers: {
       'Accept': 'application/json'
     }, body: {
@@ -90,7 +85,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://192.168.1.184:8000/api/helpline/$id";
+    String myUrl = "http://192.168.0.107:8000/api/helpline/$id";
     http.put(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -110,7 +105,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://192.168.1.184:8000/api/helpline/$id";
+    String myUrl = "http://192.168.0.107:8000/api/helpline/$id";
     http.delete(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -165,23 +160,14 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://192.168.1.184:8000/api/rescue/";
+    String myUrl = "http://192.168.0.107:8000/api/rescue/";
 
     Map<String, String> headers = {
       "Authorization": "Bearer $value",
       "Content-type": "multipart/form-data"
     };
-/*    http.Response response = await http.get(myUrl, headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $value'
-    });*/
 
     var request = http.MultipartRequest("POST", Uri.parse(myUrl));
-    //add text fields
-    /*request.files.add(
-      await http.MultipartFile.fromPath(
-          "image", _imageController.path.toString()),
-    );*/
     request.files.add(
       http.MultipartFile('image', _imageController.readAsBytes().asStream(),
           _imageController.lengthSync(),
@@ -227,102 +213,6 @@ class DatabaseHelper {
       }
     }
     status = response.body.contains('error');
-
-/*    if(response.body != null){
-      final int statusCode = response.statusCode;
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      }
-
-      else if(statusCode == 404) {
-        throw new Exception("Entity Not Found");
-      }
-      else{
-        return _decoder.convert(response.body);
-      }
-    }
-    status = response.body.contains('error');
-
-    var data = json.decode(response.body);
-
-    if(status){
-      print('data : ${data["error"]}');
-    }else{
-      print('data : ${data["token"]}');
-      _save(data["token"]);
-    }*/
-
-    //
-    /*final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key) ?? 0;*/
-    //String myUrl = "$serverUrl/api";
-
-    /*final response = await http.post(myUrl,
-        headers: {
-          'Accept':'application/json'
-        },
-        */ /*body: {
-          "animalName":"$_animalNameController",
-          "image":"$_imageController",
-          "category":"$_categoryController",
-          "year":"$_yearController",
-          "gender":"$_genderController",
-          "address": "$_addressController",
-          "phone": "$_phoneController",
-          "postedBy":"$_postedByController",
-          "description":"$_descriptionController",
-          "user_id":"$userID"
-        }*/ /*
-    );*/
-
-    /* request.fields["name"] = _animalNameController;
-    request.fields["email"] = body['email'];
-    request.fields["phone1"] = body['phone1'];
-    request.fields["phone2"] = body['phone2'];
-    request.fields["location"] =body['location'];
-    request.fields["status"] = body['status'];
-    request.fields["lat"] = body['lat'];
-    request.fields["lon"] = body['lon'];
-    request.fields["district"] = body['district'];
-    request.fields["categories_id"] = body['categories_id'];
-    request.fields["details"] = body['details'];
-    request.fields["reference"]=body['reference'];*/
-
-    /*request.headers.addAll(headers);
-    //create multipart using filepath, string or bytes
-    //add multipart to request
-    request.files.add(auth_pic);
-
-
-    final streamedResponse = await request.send();
-
-    //Get the response from the server
-    final response = await http.Response.fromStream(streamedResponse);
-
-    if(response.body != null){
-      final int statusCode = response.statusCode;
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      }
-
-      else if(statusCode == 404) {
-        throw new Exception("Entity Not Found");
-      }
-      else{
-        return _decoder.convert(response.body);
-      }
-    }
-    status = response.body.contains('error');
-
-    var data = json.decode(response.body);
-
-    if(status){
-      print('data : ${data["error"]}');
-    }else{
-      print('data : ${data["token"]}');
-      _save(data["token"]);
-    }*/
   }
 
   //function for update animal
@@ -340,7 +230,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://192.168.1.184:8000/api/rescue/$id";
+    String myUrl = "http://192.168.0.107:8000/api/rescue/$id";
     http.put(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -365,7 +255,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://192.168.1.184:8000/api/rescue/$id";
+    String myUrl = "http://192.168.0.107:8000/api/rescue/$id";
     http.delete(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -398,7 +288,7 @@ class DatabaseHelper {
     final value = prefs.get(key) ?? 0;
 
     //String myUrl = "$serverUrl/api";
-    String myUrl = "http://192.168.1.184:8000/api/assistance/";
+    String myUrl = "http://192.168.0.107:8000/api/assistance/";
     final response = await http.post(myUrl, headers: {
       'Accept': 'application/json'
     }, body: {
@@ -425,7 +315,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://192.168.1.184:8000/api/assistance/$id";
+    String myUrl = "http://192.168.0.107:8000/api/assistance/$id";
     http.put(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -445,7 +335,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://192.168.1.184:8000/api/assistance/$id";
+    String myUrl = "http://192.168.0.107:8000/api/assistance/$id";
     http.delete(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -492,7 +382,7 @@ class DatabaseHelper {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     token = sharedPreferences.getString("token");
     print(token);
-    var url = 'http://192.168.1.184:8000/api/currentUser';
+    var url = 'http://192.168.0.107:8000/api/currentUser';
     http.Response response = await http.get(
       url,
       headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
@@ -511,7 +401,7 @@ class DatabaseHelper {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     token = sharedPreferences.getString("token");
     print(token);
-    var url = 'http://192.168.1.184:8000/api/rescue/$id';
+    var url = 'http://192.168.0.107:8000/api/rescue/$id';
     http.Response response = await http.get(url);
     if (response.statusCode == 200) {
       Map<String, dynamic> map = json.decode(response.body);
@@ -529,7 +419,7 @@ class DatabaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://192.168.1.184:8000/api/editCurrentUser";
+    String myUrl = "http://192.168.0.107:8000/api/editCurrentUser";
     http.put(myUrl, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $value'
@@ -548,7 +438,7 @@ class DatabaseHelper {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString("token");
     Map data = {'token': token};
-    var url = "http://10.0.2.2:8000/api/logout";
+    var url = "http://192.168.0.107:8000/api/logout";
     http.Response response = await http.post(url, body: data);
     var jsonResponse = json.decode(response.body);
     if (response.statusCode == 200) {

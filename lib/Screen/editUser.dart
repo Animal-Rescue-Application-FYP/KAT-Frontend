@@ -3,19 +3,16 @@ import 'package:kat_centre/controller/databaseHelper.dart';
 import 'User.dart';
 
 class EditUser extends StatefulWidget {
-
   final List list;
   final int index;
 
   EditUser({this.list, this.index});
-
 
   @override
   _EditUserState createState() => _EditUserState();
 }
 
 class _EditUserState extends State<EditUser> {
-
   DatabaseHelper databaseHelper = new DatabaseHelper();
 
   TextEditingController controllerName;
@@ -23,32 +20,37 @@ class _EditUserState extends State<EditUser> {
   TextEditingController controllerPhone;
   TextEditingController controllerId;
 
-  void editUser(){
+  void editUser() {
     AlertDialog alertDialog = new AlertDialog(
       content: new Text("Are you sure, You want to update the changes?"),
       actions: <Widget>[
         new RaisedButton(
-          child: new Text("Yes",
-            style: new TextStyle(color: Colors.white),),
+          child: new Text(
+            "Yes",
+            style: new TextStyle(color: Colors.white),
+          ),
           color: Colors.green[500],
           shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(50.0)
-          ),
-          onPressed: (){
+              borderRadius: new BorderRadius.circular(50.0)),
+          onPressed: () {
             databaseHelper.editUser(
-                controllerId.text.trim(), controllerName.text.trim(), controllerEmail.text.trim(), controllerPhone.text.trim()
-            );
+                controllerId.text.trim(),
+                controllerName.text.trim(),
+                controllerEmail.text.trim(),
+                controllerPhone.text.trim());
             getUsers(context);
           },
         ),
         new RaisedButton(
-          child: new Text('Cancel',
-            style: TextStyle(color: Colors.white),),
+          child: new Text(
+            'Cancel',
+            style: TextStyle(color: Colors.white),
+          ),
           color: Colors.red[900],
           shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(50.0)
-          ),
-          onPressed: ()=> Navigator.pop(context),),
+              borderRadius: new BorderRadius.circular(50.0)),
+          onPressed: () => Navigator.pop(context),
+        ),
       ],
     );
 
@@ -60,17 +62,24 @@ class _EditUserState extends State<EditUser> {
     // TODO: implement initState
     controllerId = new TextEditingController(text: widget.list[0].toString());
     controllerName = new TextEditingController(text: widget.list[1].toString());
-    controllerEmail = new TextEditingController(text: widget.list[2].toString());
-    controllerPhone = new TextEditingController(text: widget.list[3].toString());
+    controllerEmail =
+        new TextEditingController(text: widget.list[2].toString());
+    controllerPhone =
+        new TextEditingController(text: widget.list[3].toString());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(
-        title: new Text('Edit User'),
-        backgroundColor: Colors.blue[900],
+      appBar: new AppBar(
+        title: new Text(
+          "Edit Profile",
+          style:
+              TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.white70,
+        shadowColor: Colors.blue[900],
       ),
       body: Form(
         child: ListView(
@@ -82,14 +91,12 @@ class _EditUserState extends State<EditUser> {
                   controller: controllerName,
                   // ignore: missing_return
                   validator: (value) {
-                    if (value.isEmpty)
-                      return "Please enter name";
+                    if (value.isEmpty) return "Please enter name";
                   },
                   decoration: new InputDecoration(
                     hintText: "name",
                     labelText: "name",
-                  )
-              ),
+                  )),
             ),
             new ListTile(
               leading: const Icon(Icons.email, color: Colors.black),
@@ -97,14 +104,12 @@ class _EditUserState extends State<EditUser> {
                   controller: controllerEmail,
                   // ignore: missing_return
                   validator: (value) {
-                    if (value.isEmpty)
-                      return "Please enter email address";
+                    if (value.isEmpty) return "Please enter email address";
                   },
                   decoration: new InputDecoration(
                     hintText: "email@email.com",
                     labelText: "email",
-                  )
-              ),
+                  )),
             ),
             new ListTile(
               leading: const Icon(Icons.call, color: Colors.black),
@@ -112,14 +117,12 @@ class _EditUserState extends State<EditUser> {
                   controller: controllerPhone,
                   // ignore: missing_return
                   validator: (value) {
-                    if (value.isEmpty)
-                      return "Please enter phone no";
+                    if (value.isEmpty) return "Please enter phone no";
                   },
                   decoration: new InputDecoration(
                     hintText: "98########",
                     labelText: "phone",
-                  )
-              ),
+                  )),
             ),
             const Divider(
               height: 1.0,
@@ -128,12 +131,14 @@ class _EditUserState extends State<EditUser> {
               padding: const EdgeInsets.all(10.0),
             ),
             new RaisedButton(
-              child: new Text('Edit', style: TextStyle(color: Colors.white),),
+              child: new Text(
+                'Edit',
+                style: TextStyle(color: Colors.white),
+              ),
               color: Colors.blue[900],
               shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(50.0)
-              ),
-              onPressed: (){
+                  borderRadius: new BorderRadius.circular(50.0)),
+              onPressed: () {
                 editUser();
               },
             ),

@@ -18,7 +18,7 @@ class ListAnimal extends StatefulWidget {
 class _ListAnimalState extends State<ListAnimal> {
   List data;
   Future<List> getData() async {
-    final response = await http.get("http://192.168.1.184:8000/api/rescue/");
+    final response = await http.get("http://192.168.0.107:8000/api/rescue/");
     return json.decode(response.body);
   }
 
@@ -193,26 +193,6 @@ class _ListAnimalState extends State<ListAnimal> {
                     getUserID(context),
                   },
                 ),
-                /* CustomListTile(
-                  Icons.pets,'Add hp', () =>
-                {
-                  Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                      builder: (BuildContext context) => AddHelpline()))
-
-                },),*/
-                /*CustomListTile(
-                  Icons.attach_money_sharp,
-                  'Donation',
-                  () => {
-                    Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                        builder: (BuildContext context) => Donation()))
-                  },
-                ),*/
-                /*CustomListTile(Icons.shop,'Animal Essentials',() =>
-                {
-                  Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                      builder: (BuildContext context) => SnackBarDemo()))
-                },),*/
                 Divider(color: Colors.blue[200]),
                 CustomListTile(
                   Icons.logout,

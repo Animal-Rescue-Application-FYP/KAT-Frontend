@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///F:/Year%203/Final%20Year%20Project/Final%20Project/kat_centre/lib/Splash%20Screen/splash.dart';
+import 'package:kat_centre/Splash Screen/splash.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,5 +29,3 @@ class _MainPageState extends State<MainPage> {
     return Container();
   }
 }
-
-

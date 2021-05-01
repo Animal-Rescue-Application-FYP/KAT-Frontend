@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-
 import 'package:kat_centre/Forgot Password/resetPassword.dart';
+import 'package:kat_centre/Forgot%20Password/forgotPassword.dart';
 
 class ForgotPasswordButton extends StatefulWidget {
   ForgotPasswordButton({this.email, this.formKey});
@@ -15,6 +15,64 @@ class ForgotPasswordButton extends StatefulWidget {
 }
 
 class _ForgotPasswordButtonState extends State<ForgotPasswordButton> {
+  bool _isLoading = false;
+  void resetSuccess() {
+    AlertDialog alertDialog = new AlertDialog(
+      content: new Text("Please check you email"),
+      actions: <Widget>[
+        new RaisedButton(
+          child: new Text(
+            "OK",
+            style: new TextStyle(color: Colors.white),
+          ),
+          color: Colors.green[500],
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(50.0)),
+          onPressed: () {
+            setState(() {
+              _isLoading = false;
+            });
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (BuildContext context) => ResetPassword()),
+                (Route<dynamic> route) => false);
+          },
+        ),
+      ],
+    );
+
+    showDialog(context: context, child: alertDialog);
+  }
+
+  //method to display error message when unregistered email address is entered
+  void resetFail() {
+    AlertDialog alertDialog = new AlertDialog(
+      content: new Text("Please enter registered email address"),
+      actions: <Widget>[
+        new RaisedButton(
+          child: new Text(
+            "OK",
+            style: new TextStyle(color: Colors.white),
+          ),
+          color: Colors.green[500],
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(50.0)),
+          onPressed: () {
+            setState(() {
+              _isLoading = false;
+            });
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (BuildContext context) => ForgotPassword()),
+                (Route<dynamic> route) => false);
+          },
+        ),
+      ],
+    );
+
+    showDialog(context: context, child: alertDialog);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,23 +109,6 @@ class _ForgotPasswordButtonState extends State<ForgotPasswordButton> {
         ),
       ),
     );
-    /*Material(
-      child: ElevatedButton(
-        onPressed: () {
-          if (widget.formKey.currentState.validate()) {
-            setState(() {
-              bool isLoading = false;
-              isLoading = !isLoading;
-            });
-            print(widget.email.text);
-            sendEmail(widget.email.text);
-          }
-        },
-        child: Text('Send link'),
-
-        //buttonText: 'Send Reset Link');
-      ),
-    );*/
   }
 
   sendEmail(String email) async {
@@ -75,9 +116,9 @@ class _ForgotPasswordButtonState extends State<ForgotPasswordButton> {
 
     var jsonResponse;
     var response = await http.post(
-        Uri.parse("http://192.168.1.184:8000/api/password/forgot"),
+        Uri.parse("http://192.168.0.107:8000/api/password/forgot"),
         body: data);
-
+    //if else loop to validate registered email address
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
       print('Response status: ${response.statusCode}');
@@ -87,22 +128,18 @@ class _ForgotPasswordButtonState extends State<ForgotPasswordButton> {
           bool isLoading = false;
           isLoading = false;
           print("check mail");
-          //createSnackBar('Check your mail', Colors.green, context);
         });
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (BuildContext context) => ResetPassword()),
-            (Route<dynamic> route) => false);
+        resetSuccess();
       }
     } else {
       setState(() {
         bool isLoading;
         isLoading = false;
-        //createSnackBar('Could not send email', Colors.red, context);
       });
       print(email);
       print(response.body);
       print('Response status: ${response.statusCode}');
+      resetFail();
     }
   }
 }

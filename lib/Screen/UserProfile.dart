@@ -37,241 +37,245 @@ class UserProfile extends StatelessWidget {
           },
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(
-              top: 1,
-              bottom: 5,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                top: 1,
+                bottom: 5,
+              ),
+              height: 250.0,
+              child: Card(
+                elevation: 1,
+                margin: EdgeInsets.all(20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.0),
+                ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "${currentUser['user']['name']}",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.black87,
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle: FontStyle.italic),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "${currentUser['user']['phone']}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black87,
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle: FontStyle.italic),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "${currentUser['user']['email']}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black87,
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle: FontStyle.italic),
+                                          ),
+                                        ),
+                                        RaisedButton(
+                                          child: new Text(
+                                            "Edit",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          color: Colors.blue[800],
+                                          shape: new RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(30.0),
+                                          ),
+                                          onPressed: () => {
+                                            Navigator.of(context).push(
+                                              new MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        new EditUser(
+                                                            list: list,
+                                                            index: list.length),
+                                              ),
+                                            )
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            height: 250.0,
-            child: Card(
+            Card(
               elevation: 1,
               margin: EdgeInsets.all(20),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50.0),
+                borderRadius: BorderRadius.circular(30.0),
               ),
               child: Column(
                 children: [
-                  Expanded(
-                    child: Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-                            child: Row(
-                              children: [
-                                Expanded(
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Your Posts',
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.blue[900],
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 300,
+                    child: ListView.builder(
+                      itemCount: dataLength,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          child: GestureDetector(
+                            onTap: () => Navigator.of(context).push(
+                              new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new AnimalDetails(
+                                  list: rescueData,
+                                  index: index,
+                                ),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Card(
+                                elevation: 1,
+                                margin: EdgeInsets.all(20),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
                                   child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "${currentUser['user']['name']}",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black87,
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic),
-                                        ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                              'Animal Name: ${rescueData[index]['animalName']}',
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  color: Colors.black87,
+                                                  fontStyle: FontStyle.italic)),
+                                        ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "${currentUser['user']['phone']}",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black87,
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic),
-                                        ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                                'Category: ${rescueData[index]['category']}',
+                                                style: TextStyle(
+                                                    fontSize: 15.0,
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.black87)),
+                                          ),
+                                        ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "${currentUser['user']['email']}",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black87,
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic),
-                                        ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                              'Age: ${rescueData[index]['year']}',
+                                              style: TextStyle(
+                                                  fontSize: 15.0,
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.black87)),
+                                          SizedBox(
+                                            width: 30,
+                                          ),
+                                          Text(
+                                              'Gender: ${rescueData[index]['gender']}',
+                                              style: TextStyle(
+                                                  fontSize: 15.0,
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.black87)),
+                                        ],
                                       ),
-                                      RaisedButton(
-                                        child: new Text(
-                                          "Edit",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        color: Colors.blue[800],
-                                        shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(30.0),
-                                        ),
-                                        onPressed: () => {
-                                          Navigator.of(context).push(
-                                            new MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  new EditUser(
-                                                      list: list,
-                                                      index: list.length),
-                                            ),
-                                          )
-                                        },
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                                'Location: ${rescueData[index]['address']}',
+                                                style: TextStyle(
+                                                    fontSize: 15.0,
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.black87)),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                              'Phone: ${rescueData[index]['phone']}',
+                                              style: TextStyle(
+                                                  fontSize: 15.0,
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.black87)),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Tap to Edit or Remove >>',
+                                              style: TextStyle(
+                                                  fontSize: 15.0,
+                                                  color: Colors.red,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontStyle: FontStyle.italic)),
+                                        ],
                                       ),
                                     ],
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-          Card(
-            elevation: 1,
-            margin: EdgeInsets.all(20),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Your Posts',
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.blue[900],
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic),
-                  ),
-                ),
-                SizedBox(
-                  height: 300,
-                  child: ListView.builder(
-                    itemCount: dataLength,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        child: GestureDetector(
-                          onTap: () => Navigator.of(context).push(
-                            new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  new AnimalDetails(
-                                list: rescueData,
-                                index: index,
-                              ),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Card(
-                              elevation: 1,
-                              margin: EdgeInsets.all(20),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                            'Animal Name: ${rescueData[index]['animalName']}',
-                                            style: TextStyle(
-                                                fontSize: 20.0,
-                                                color: Colors.black87,
-                                                fontStyle: FontStyle.italic)),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                              'Category: ${rescueData[index]['category']}',
-                                              style: TextStyle(
-                                                  fontSize: 15.0,
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.black87)),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                            'Age: ${rescueData[index]['year']}',
-                                            style: TextStyle(
-                                                fontSize: 15.0,
-                                                fontStyle: FontStyle.italic,
-                                                color: Colors.black87)),
-                                        SizedBox(
-                                          width: 30,
-                                        ),
-                                        Text(
-                                            'Gender: ${rescueData[index]['gender']}',
-                                            style: TextStyle(
-                                                fontSize: 15.0,
-                                                fontStyle: FontStyle.italic,
-                                                color: Colors.black87)),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                              'Location: ${rescueData[index]['address']}',
-                                              style: TextStyle(
-                                                  fontSize: 15.0,
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.black87)),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                            'Phone: ${rescueData[index]['phone']}',
-                                            style: TextStyle(
-                                                fontSize: 15.0,
-                                                fontStyle: FontStyle.italic,
-                                                color: Colors.black87)),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text('Tap to Edit or Remove >>',
-                                            style: TextStyle(
-                                                fontSize: 15.0,
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle: FontStyle.italic)),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

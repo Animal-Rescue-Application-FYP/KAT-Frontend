@@ -9,22 +9,24 @@ getUsers(context) async {
   var currentUser = await databaseHelper.getUserData();
   print(currentUser);
   var userRescue =
-  await databaseHelper.getUserRescueData(currentUser['user']['id']);
+      await databaseHelper.getUserRescueData(currentUser['user']['id']);
   print(userRescue);
   Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
           builder: (BuildContext context) => UserProfile(
-            currentUser: currentUser,
-            rescueData: userRescue,
-            dataLength: userRescue.length,
-            list: [currentUser['user']['id'],
-              currentUser['user']['name'],
-              currentUser['user']['email'],
-            currentUser['user']['phone'],
-            currentUser['user']['password']],
-          )),
-          (Route<dynamic> route) => false);
+                currentUser: currentUser,
+                rescueData: userRescue,
+                dataLength: userRescue.length,
+                list: [
+                  currentUser['user']['id'],
+                  currentUser['user']['name'],
+                  currentUser['user']['email'],
+                  currentUser['user']['phone'],
+                  currentUser['user']['password']
+                ],
+              )),
+      (Route<dynamic> route) => false);
 }
 
 //get userid
@@ -39,9 +41,7 @@ getUserID(context) async {
       context,
       MaterialPageRoute(
           builder: (BuildContext context) => AddAnimal(
-            userId: userID,
-          )),
-          (Route<dynamic> route) => false);
+                userId: userID,
+              )),
+      (Route<dynamic> route) => false);
 }
-
-
